@@ -23,6 +23,21 @@
       margin: 0 auto;
       padding: 14px;
       padding-bottom: 110px;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .fixed-top {
+      flex-shrink: 0;
+    }
+
+    .scroll-area {
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-right: 2px;
     }
 
     .top-tabs {
@@ -374,30 +389,35 @@
 </head>
 <body>
   <div class="container">
-    <!-- 顶部切换按钮 -->
-    <div class="top-tabs">
-      <div class="tab active" data-page="schedulePage">工作时段表</div>
-      <div class="tab" data-page="checklistPage">工作清单</div>
+    <div class="fixed-top">
+      <!-- 顶部切换按钮 -->
+      <div class="top-tabs">
+        <div class="tab active" data-page="schedulePage">工作时段表</div>
+        <div class="tab" data-page="checklistPage">工作清单</div>
+      </div>
     </div>
 
     <!-- 工作时段表页面 -->
     <div id="schedulePage" class="page active">
-      <div class="header">
-        <button id="prevDate">‹</button>
-        <div>
-          <div class="date-title" id="dateTitle">2026-08-12</div>
-          <div class="weekday" id="weekday">星期三</div>
+      <div class="fixed-top">
+        <div class="header">
+          <button id="prevDate">‹</button>
+          <div>
+            <div class="date-title" id="dateTitle">2026-08-12</div>
+            <div class="weekday" id="weekday">星期三</div>
+          </div>
+          <button id="nextDate">›</button>
+          <button class="today-btn" id="todayBtn">今日</button>
         </div>
-        <button id="nextDate">›</button>
-        <button class="today-btn" id="todayBtn">今日</button>
+
+        <div class="summary-card">
+          <div class="label">Start 实际总时长</div>
+          <div class="value" id="totalDuration">0h</div>
+        </div>
       </div>
 
-      <div class="summary-card">
-        <div class="label">Start 实际总时长</div>
-        <div class="value" id="totalDuration">0h</div>
-      </div>
-
-      <table>
+      <div class="scroll-area">
+        <table>
         <thead>
           <tr>
             <th style="width:16%">工作类型</th>
@@ -417,42 +437,47 @@
             </td>
           </tr>
         </tfoot>
-      </table>
+        </table>
+      </div>
     </div>
 
     <!-- 工作清单页面 -->
     <div id="checklistPage" class="page">
-      <div class="header">
-        <button id="prevDateCheck">‹</button>
-        <div>
-          <div class="date-title" id="dateTitleCheck">2026-08-12</div>
-          <div class="weekday" id="weekdayCheck">星期三</div>
+      <div class="fixed-top">
+        <div class="header">
+          <button id="prevDateCheck">‹</button>
+          <div>
+            <div class="date-title" id="dateTitleCheck">2026-08-12</div>
+            <div class="weekday" id="weekdayCheck">星期三</div>
+          </div>
+          <button id="nextDateCheck">›</button>
+          <button class="today-btn" id="todayBtnCheck">今日</button>
         </div>
-        <button id="nextDateCheck">›</button>
-        <button class="today-btn" id="todayBtnCheck">今日</button>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="num" id="totalCount">0</div>
+            <div class="label">总任务</div>
+          </div>
+          <div class="stat-card">
+            <div class="num" id="doneCount">0</div>
+            <div class="label">已完成</div>
+          </div>
+          <div class="stat-card">
+            <div class="num" id="undoneCount">0</div>
+            <div class="label">待完成</div>
+          </div>
+        </div>
       </div>
 
-      <div class="stats-row">
-        <div class="stat-card">
-          <div class="num" id="totalCount">0</div>
-          <div class="label">总任务</div>
+      <div class="scroll-area">
+        <div class="card">
+          <div class="input-row">
+            <input type="text" id="newTaskInput" placeholder="输入要做的工作...">
+            <button id="addTaskBtn">添加</button>
+          </div>
+          <div id="checklistContainer"></div>
         </div>
-        <div class="stat-card">
-          <div class="num" id="doneCount">0</div>
-          <div class="label">已完成</div>
-        </div>
-        <div class="stat-card">
-          <div class="num" id="undoneCount">0</div>
-          <div class="label">待完成</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="input-row">
-          <input type="text" id="newTaskInput" placeholder="输入要做的工作...">
-          <button id="addTaskBtn">添加</button>
-        </div>
-        <div id="checklistContainer"></div>
       </div>
     </div>
 
