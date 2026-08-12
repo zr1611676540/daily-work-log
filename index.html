@@ -13,7 +13,7 @@
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
-      background: #f0f2f5;
+      background: #f5f6fa;
       color: #333;
       font-size: 14px;
     }
@@ -22,6 +22,7 @@
       max-width: 520px;
       margin: 0 auto;
       padding: 14px;
+      padding-bottom: 90px;
     }
 
     .header {
@@ -32,7 +33,7 @@
     }
 
     .header button {
-      background: linear-gradient(135deg, #ff7e5f, #feb47b);
+      background: linear-gradient(135deg, #667eea, #764ba2);
       color: #fff;
       border: none;
       width: 34px;
@@ -40,7 +41,7 @@
       border-radius: 50%;
       font-size: 18px;
       cursor: pointer;
-      box-shadow: 0 2px 6px rgba(255,126,95,0.3);
+      box-shadow: 0 2px 6px rgba(102,126,234,0.3);
     }
 
     .date-title {
@@ -58,6 +59,27 @@
       margin-bottom: 14px;
     }
 
+    .summary-card {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(102,126,234,0.25);
+      text-align: center;
+    }
+
+    .summary-card .label {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .summary-card .value {
+      font-size: 28px;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
     table {
       width: 100%;
       border-collapse: separate;
@@ -70,7 +92,7 @@
 
     th, td {
       border: 1px solid #f0e6e0;
-      padding: 8px 4px;
+      padding: 8px 3px;
       text-align: center;
       vertical-align: middle;
     }
@@ -79,7 +101,7 @@
       background: linear-gradient(180deg, #ff9a56, #ff7043);
       color: #fff;
       font-weight: 600;
-      font-size: 13px;
+      font-size: 12px;
       text-shadow: 0 1px 1px rgba(0,0,0,0.1);
     }
 
@@ -98,12 +120,13 @@
 
     input[type="time"] {
       border: none;
-      background: transparent;
-      font-size: 13px;
+      background: rgba(255,255,255,0.6);
+      border-radius: 6px;
+      font-size: 12px;
       color: #333;
       text-align: center;
       padding: 4px 0;
-      width: 64px;
+      width: 58px;
       outline: none;
       -webkit-appearance: none;
     }
@@ -113,14 +136,25 @@
       color: #1565c0;
       font-weight: 700;
       border-radius: 10px;
-      padding: 2px 6px;
+      padding: 2px 5px;
       display: inline-block;
-      min-width: 42px;
+      min-width: 38px;
+      font-size: 12px;
     }
 
     .adjust-cell {
       color: #7f8c8d;
       font-size: 13px;
+    }
+
+    .done-select {
+      border: none;
+      background: #f0f0f0;
+      border-radius: 6px;
+      padding: 4px 2px;
+      font-size: 12px;
+      outline: none;
+      color: #333;
     }
 
     .review-row td {
@@ -148,9 +182,115 @@
       font-size: 14px;
     }
 
+    /* 工作清单页面 */
+    .checklist-page {
+      display: none;
+    }
+
+    .checklist-page.active {
+      display: block;
+    }
+
+    .checklist-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .checklist-input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .checklist-input-row input {
+      flex: 1;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .checklist-input-row button {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0 18px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .checklist-item:last-child {
+      border-bottom: none;
+    }
+
+    .checklist-item input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      accent-color: #667eea;
+      flex-shrink: 0;
+    }
+
+    .checklist-item .text {
+      flex: 1;
+      font-size: 14px;
+    }
+
+    .checklist-item .text.done {
+      text-decoration: line-through;
+      color: #999;
+    }
+
+    .checklist-item .delete {
+      color: #e74c3c;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 0 6px;
+    }
+
+    /* 底部 Tab */
+    .tab-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      display: flex;
+      border-top: 1px solid #eee;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+      z-index: 50;
+    }
+
+    .tab-bar .tab {
+      flex: 1;
+      text-align: center;
+      padding: 12px 0;
+      font-size: 13px;
+      color: #888;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab-bar .tab.active {
+      color: #667eea;
+      font-weight: 600;
+      background: #f5f6fa;
+    }
+
     .save-hint {
       position: fixed;
-      bottom: 24px;
+      bottom: 70px;
       left: 50%;
       transform: translateX(-50%);
       background: rgba(44,62,80,0.88);
@@ -170,7 +310,7 @@
 
     .footer {
       text-align: center;
-      padding: 18px;
+      padding: 12px;
       color: #aaa;
       font-size: 12px;
     }
@@ -178,65 +318,93 @@
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <button id="prevDate">‹</button>
-      <div>
-        <div class="date-title" id="dateTitle">2026-08-12</div>
-        <div class="weekday" id="weekday">星期三</div>
+    <!-- 工作时段页面 -->
+    <div id="schedulePage" class="schedule-page">
+      <div class="header">
+        <button id="prevDate">‹</button>
+        <div>
+          <div class="date-title" id="dateTitle">2026-08-12</div>
+          <div class="weekday" id="weekday">星期三</div>
+        </div>
+        <button id="nextDate">›</button>
       </div>
-      <button id="nextDate">›</button>
+
+      <div class="summary-card">
+        <div class="label">Start 实际总时长</div>
+        <div class="value" id="totalDuration">0h</div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width:14%">工作类型</th>
+            <th style="width:16%">具体工作</th>
+            <th style="width:15%">开始时间</th>
+            <th style="width:15%">结束时间</th>
+            <th style="width:13%">时长</th>
+            <th style="width:13%">时长调整</th>
+            <th style="width:14%">完成情况</th>
+          </tr>
+        </thead>
+        <tbody id="workTableBody"></tbody>
+        <tfoot>
+          <tr class="review-row">
+            <td class="review-label">今日<br>复盘</td>
+            <td colspan="6">
+              <textarea id="reviewText" placeholder="记录今天的收获、不足和明天计划..."></textarea>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div class="footer">数据保存在当前手机浏览器中</div>
     </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th style="width:16%">工作类型</th>
-          <th style="width:20%">具体工作</th>
-          <th style="width:17%">开始时间</th>
-          <th style="width:17%">结束时间</th>
-          <th style="width:15%">时长</th>
-          <th style="width:15%">时长调整</th>
-        </tr>
-      </thead>
-      <tbody id="workTableBody"></tbody>
-      <tfoot>
-        <tr class="review-row">
-          <td class="review-label">今日<br>复盘</td>
-          <td colspan="5">
-            <textarea id="reviewText" placeholder="记录今天的收获、不足和明天计划..."></textarea>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
+    <!-- 工作清单页面 -->
+    <div id="checklistPage" class="checklist-page">
+      <div class="date-title" style="margin-bottom:14px;">工作清单</div>
+      <div class="checklist-card">
+        <div class="checklist-input-row">
+          <input type="text" id="newTaskInput" placeholder="输入要做的工作...">
+          <button id="addTaskBtn">添加</button>
+        </div>
+        <div id="checklistContainer"></div>
+      </div>
+      <div class="footer">数据保存在当前手机浏览器中</div>
+    </div>
+  </div>
 
-    <div class="footer">数据保存在当前手机浏览器中</div>
+  <!-- 底部 Tab -->
+  <div class="tab-bar">
+    <div class="tab active" data-page="schedulePage">工作时段表</div>
+    <div class="tab" data-page="checklistPage">工作清单</div>
   </div>
 
   <div class="save-hint" id="saveHint">已自动保存</div>
 
   <script>
-    // 默认结构：autoRows 为 true 的行才会根据开始结束时间自动计算时长
+    // 默认结构：autoRows 为 true 的行才会根据开始结束时间自动计算时长，并显示完成情况
     const DEFAULT_SCHEDULE = [
       { type: '上午', rows: [
-        { work: 'Start', start: '5:30', end: '7:30', duration: '', adjust: '✅', auto: true },
-        { work: 'Other', start: '7:30', end: '8:30', duration: '', adjust: '', auto: false },
-        { work: 'Start', start: '8:30', end: '9:30', duration: '', adjust: '➕', auto: true },
-        { work: '', start: '9:30', end: '12:00', duration: '', adjust: '', auto: false },
+        { work: 'Start', start: '5:30', end: '7:30', adjust: '✅', auto: true, done: '是' },
+        { work: 'Other', start: '7:30', end: '8:30', adjust: '', auto: false, done: '' },
+        { work: 'Start', start: '8:30', end: '9:30', adjust: '➕', auto: true, done: '是' },
+        { work: '', start: '9:30', end: '12:00', adjust: '', auto: false, done: '' },
       ]},
       { type: '中午', rows: [
-        { work: '', start: '12:00', end: '13:00', duration: '', adjust: '', auto: false },
-        { work: 'Start', start: '13:00', end: '13:30', duration: '', adjust: '✅', auto: true },
-        { work: '', start: '13:30', end: '14:00', duration: '', adjust: '', auto: false },
+        { work: '', start: '12:00', end: '13:00', adjust: '', auto: false, done: '' },
+        { work: 'Start', start: '13:00', end: '13:30', adjust: '✅', auto: true, done: '是' },
+        { work: '', start: '13:30', end: '14:00', adjust: '', auto: false, done: '' },
       ]},
       { type: '下午', rows: [
-        { work: '', start: '14:00', end: '18:30', duration: '', adjust: '', auto: false },
-        { work: 'Start', start: '18:30', end: '19:30', duration: '', adjust: '➕', auto: true },
-        { work: '', start: '19:30', end: '20:00', duration: '', adjust: '', auto: false },
+        { work: '', start: '14:00', end: '18:30', adjust: '', auto: false, done: '' },
+        { work: 'Start', start: '18:30', end: '19:30', adjust: '➕', auto: true, done: '是' },
+        { work: '', start: '19:30', end: '20:00', adjust: '', auto: false, done: '' },
       ]},
       { type: '晚上', rows: [
-        { work: '', start: '20:00', end: '21:00', duration: '', adjust: '', auto: false },
-        { work: 'Start', start: '21:00', end: '23:00', duration: '', adjust: '➖', auto: true },
-        { work: '', start: '23:00', end: '23:30', duration: '', adjust: '', auto: false },
+        { work: '', start: '20:00', end: '21:00', adjust: '', auto: false, done: '' },
+        { work: 'Start', start: '21:00', end: '23:00', adjust: '➖', auto: true, done: '是' },
+        { work: '', start: '23:00', end: '23:30', adjust: '', auto: false, done: '' },
       ]},
     ];
 
@@ -269,7 +437,16 @@
       const m = minutes % 60;
       if (h === 0) return `${m}min`;
       if (m === 0) return `${h}h`;
-      return `${h}.${Math.round(m / 60 * 10) / 1}h`.replace(/\.0h$/, 'h');
+      const decimal = Math.round(m / 60 * 10) / 10;
+      return `${h + decimal}h`;
+    }
+
+    function durationToMinutes(durStr) {
+      if (!durStr) return 0;
+      if (durStr.includes('min')) {
+        return parseInt(durStr);
+      }
+      return Math.round(parseFloat(durStr) * 60);
     }
 
     function loadData(dateKey) {
@@ -277,7 +454,8 @@
       if (raw) return JSON.parse(raw);
       return {
         schedule: deepClone(DEFAULT_SCHEDULE),
-        review: ''
+        review: '',
+        checklist: []
       };
     }
 
@@ -292,7 +470,25 @@
       setTimeout(() => hint.classList.remove('show'), 1200);
     }
 
-    function render() {
+    function updateTotalDuration(data) {
+      let totalMinutes = 0;
+      data.schedule.forEach(group => {
+        group.rows.forEach(row => {
+          if (row.auto) {
+            const dur = calcDuration(row.start, row.end);
+            totalMinutes += durationToMinutes(dur);
+          }
+        });
+      });
+      const h = Math.floor(totalMinutes / 60);
+      const m = totalMinutes % 60;
+      let text = '';
+      if (h > 0) text += `${h}h`;
+      if (m > 0) text += `${m}min`;
+      document.getElementById('totalDuration').textContent = text || '0h';
+    }
+
+    function renderSchedule() {
       const dateKey = formatDate(currentDate);
       document.getElementById('dateTitle').textContent = dateKey;
       document.getElementById('weekday').textContent = getWeekday(currentDate);
@@ -301,24 +497,33 @@
       const tbody = document.getElementById('workTableBody');
       tbody.innerHTML = '';
 
-      data.schedule.forEach(group => {
-        group.rows.forEach((row, idx) => {
+      data.schedule.forEach((group, gIdx) => {
+        group.rows.forEach((row, rIdx) => {
           const tr = document.createElement('tr');
 
-          const typeCell = idx === 0
+          const typeCell = rIdx === 0
             ? `<td class="type-cell" rowspan="${group.rows.length}">${group.type}</td>`
             : '';
 
-          const dur = row.auto ? calcDuration(row.start, row.end) : row.duration;
+          const dur = row.auto ? calcDuration(row.start, row.end) : '';
           const durHtml = dur ? `<span class="duration-highlight">${dur}</span>` : '';
+
+          const doneOptions = row.auto
+            ? `<select class="done-select" data-group="${gIdx}" data-idx="${rIdx}">
+                <option value="" ${row.done === '' ? 'selected' : ''}>-</option>
+                <option value="是" ${row.done === '是' ? 'selected' : ''}>是</option>
+                <option value="否" ${row.done === '否' ? 'selected' : ''}>否</option>
+              </select>`
+            : '';
 
           tr.innerHTML = `
             ${typeCell}
             <td class="work-cell">${row.work}</td>
-            <td><input type="time" class="start" data-group="${data.schedule.indexOf(group)}" data-idx="${idx}" value="${row.start}"></td>
-            <td><input type="time" class="end" data-group="${data.schedule.indexOf(group)}" data-idx="${idx}" value="${row.end}"></td>
+            <td><input type="time" class="start" data-group="${gIdx}" data-idx="${rIdx}" value="${row.start}"></td>
+            <td><input type="time" class="end" data-group="${gIdx}" data-idx="${rIdx}" value="${row.end}"></td>
             <td>${durHtml}</td>
             <td class="adjust-cell">${row.adjust}</td>
+            <td>${doneOptions}</td>
           `;
 
           tbody.appendChild(tr);
@@ -326,43 +531,134 @@
       });
 
       document.getElementById('reviewText').value = data.review;
-      bindEvents(data, dateKey);
+      updateTotalDuration(data);
+      bindScheduleEvents(data, dateKey);
     }
 
-    function bindEvents(data, dateKey) {
+    function bindScheduleEvents(data, dateKey) {
       const update = () => {
         data.schedule.forEach((group, gIdx) => {
           group.rows.forEach((row, rIdx) => {
-            const inputs = document.querySelectorAll(`input[data-group="${gIdx}"][data-idx="${rIdx}"]`);
-            inputs.forEach(input => {
-              if (input.classList.contains('start')) row.start = input.value;
-              if (input.classList.contains('end')) row.end = input.value;
-            });
+            const startInput = document.querySelector(`input.start[data-group="${gIdx}"][data-idx="${rIdx}"]`);
+            const endInput = document.querySelector(`input.end[data-group="${gIdx}"][data-idx="${rIdx}"]`);
+            const doneSelect = document.querySelector(`select.done-select[data-group="${gIdx}"][data-idx="${rIdx}"]`);
+            if (startInput) row.start = startInput.value;
+            if (endInput) row.end = endInput.value;
+            if (doneSelect) row.done = doneSelect.value;
           });
         });
         data.review = document.getElementById('reviewText').value;
         saveData(dateKey, data);
-        render();
+        renderSchedule();
       };
 
-      document.querySelectorAll('input[type="time"]').forEach(input => {
-        input.addEventListener('change', update);
+      document.querySelectorAll('#schedulePage input[type="time"], #schedulePage select').forEach(el => {
+        el.addEventListener('change', update);
       });
 
       document.getElementById('reviewText').addEventListener('input', update);
     }
 
+    function renderChecklist() {
+      const dateKey = formatDate(currentDate);
+      const data = loadData(dateKey);
+      const container = document.getElementById('checklistContainer');
+      container.innerHTML = '';
+
+      if (data.checklist.length === 0) {
+        container.innerHTML = '<div style="text-align:center;color:#999;padding:20px;">暂无工作，点击上方添加</div>';
+        return;
+      }
+
+      data.checklist.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'checklist-item';
+        div.innerHTML = `
+          <input type="checkbox" ${item.done ? 'checked' : ''} data-idx="${idx}">
+          <div class="text ${item.done ? 'done' : ''}">${escapeHtml(item.text)}</div>
+          <div class="delete" data-idx="${idx}">×</div>
+        `;
+        container.appendChild(div);
+      });
+
+      bindChecklistEvents(data, dateKey);
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function bindChecklistEvents(data, dateKey) {
+      document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(cb => {
+        cb.addEventListener('change', () => {
+          const idx = Number(cb.dataset.idx);
+          data.checklist[idx].done = cb.checked;
+          saveData(dateKey, data);
+          renderChecklist();
+        });
+      });
+
+      document.querySelectorAll('.checklist-item .delete').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = Number(btn.dataset.idx);
+          data.checklist.splice(idx, 1);
+          saveData(dateKey, data);
+          renderChecklist();
+        });
+      });
+    }
+
+    function addTask() {
+      const input = document.getElementById('newTaskInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const dateKey = formatDate(currentDate);
+      const data = loadData(dateKey);
+      data.checklist.push({ text, done: false });
+      saveData(dateKey, data);
+      input.value = '';
+      renderChecklist();
+    }
+
+    // Tab 切换
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        document.getElementById('schedulePage').classList.remove('active');
+        document.getElementById('checklistPage').classList.remove('active');
+        document.getElementById(tab.dataset.page).classList.add('active');
+      });
+    });
+
+    // 日期切换
     document.getElementById('prevDate').addEventListener('click', () => {
       currentDate.setDate(currentDate.getDate() - 1);
-      render();
+      renderSchedule();
+      renderChecklist();
     });
 
     document.getElementById('nextDate').addEventListener('click', () => {
       currentDate.setDate(currentDate.getDate() + 1);
-      render();
+      renderSchedule();
+      renderChecklist();
     });
 
-    render();
+    // 清单添加
+    document.getElementById('addTaskBtn').addEventListener('click', addTask);
+    document.getElementById('newTaskInput').addEventListener('keypress', e => {
+      if (e.key === 'Enter') addTask();
+    });
+
+    // 默认显示第一个 tab
+    document.querySelector('.tab[data-page="schedulePage"]').click();
+
+    renderSchedule();
+    renderChecklist();
   </script>
 </body>
 </html>
