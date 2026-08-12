@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>工作清单</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: #f5f6fa;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 14px;
+      padding-bottom: 90px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .header button {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff;
+      border: none;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(102,126,234,0.3);
+    }
+
+    .page-title {
+      font-size: 18px;
+      font-weight: 600;
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .date-subtitle {
+      text-align: center;
+      color: #888;
+      font-size: 13px;
+      margin-top: 2px;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .stat-card {
+      flex: 1;
+      background: #fff;
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .stat-card .num {
+      font-size: 22px;
+      font-weight: 700;
+      color: #667eea;
+    }
+
+    .stat-card .label {
+      font-size: 12px;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .input-row input {
+      flex: 1;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 11px 12px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .input-row button {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0 18px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .checklist-item:last-child {
+      border-bottom: none;
+    }
+
+    .checklist-item input[type="checkbox"] {
+      width: 22px;
+      height: 22px;
+      accent-color: #667eea;
+      flex-shrink: 0;
+    }
+
+    .checklist-item .text {
+      flex: 1;
+      font-size: 15px;
+      word-break: break-all;
+    }
+
+    .checklist-item .text.done {
+      text-decoration: line-through;
+      color: #999;
+    }
+
+    .checklist-item .delete {
+      color: #e74c3c;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0 6px;
+      flex-shrink: 0;
+    }
+
+    .empty-state {
+      text-align: center;
+      color: #999;
+      padding: 30px 0;
+      font-size: 14px;
+    }
+
+    .link-bar {
+      text-align: center;
+      padding: 16px;
+    }
+
+    .link-bar a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .save-btn {
+      position: fixed;
+      bottom: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff;
+      border: none;
+      padding: 12px 36px;
+      border-radius: 26px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(102,126,234,0.35);
+      z-index: 100;
+      transition: transform 0.1s;
+    }
+
+    .save-btn:active {
+      transform: translateX(-50%) scale(0.96);
+    }
+
+    .save-hint {
+      position: fixed;
+      bottom: 130px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(44,62,80,0.88);
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 22px;
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .save-hint.show {
+      opacity: 1;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 12px;
+      color: #aaa;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <button id="prevDate">‹</button>
+      <div>
+        <div class="page-title">工作清单</div>
+        <div class="date-subtitle" id="dateSubtitle">2026-08-12 星期三</div>
+      </div>
+      <button id="nextDate">›</button>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="num" id="totalCount">0</div>
+        <div class="label">总任务</div>
+      </div>
+      <div class="stat-card">
+        <div class="num" id="doneCount">0</div>
+        <div class="label">已完成</div>
+      </div>
+      <div class="stat-card">
+        <div class="num" id="undoneCount">0</div>
+        <div class="label">待完成</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="input-row">
+        <input type="text" id="newTaskInput" placeholder="输入要做的工作...">
+        <button id="addTaskBtn">添加</button>
+      </div>
+      <div id="checklistContainer"></div>
+    </div>
+
+    <div class="link-bar">
+      <a href="index.html">← 返回工作时段表</a>
+    </div>
+
+    <div class="footer">数据保存在当前手机浏览器中</div>
+  </div>
+
+  <button class="save-btn" id="saveBtn">保存</button>
+  <div class="save-hint" id="saveHint">已保存</div>
+
+  <script>
+    let currentDate = new Date();
+    let currentData = null;
+
+    function formatDate(date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, '0');
+      const d = String(date.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    }
+
+    function getWeekday(date) {
+      const days = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+      return days[date.getDay()];
+    }
+
+    function loadData(dateKey) {
+      const raw = localStorage.getItem('workLog_' + dateKey);
+      if (raw) {
+        const data = JSON.parse(raw);
+        if (!data.checklist) data.checklist = [];
+        return data;
+      }
+      return { checklist: [] };
+    }
+
+    function saveData(dateKey, data) {
+      localStorage.setItem('workLog_' + dateKey, JSON.stringify(data));
+      showHint();
+    }
+
+    function showHint() {
+      const hint = document.getElementById('saveHint');
+      hint.classList.add('show');
+      setTimeout(() => hint.classList.remove('show'), 1500);
+    }
+
+    function updateStats() {
+      const total = currentData.checklist.length;
+      const done = currentData.checklist.filter(i => i.done).length;
+      document.getElementById('totalCount').textContent = total;
+      document.getElementById('doneCount').textContent = done;
+      document.getElementById('undoneCount').textContent = total - done;
+    }
+
+    function render() {
+      const dateKey = formatDate(currentDate);
+      currentData = loadData(dateKey);
+
+      document.getElementById('dateSubtitle').textContent = `${dateKey} ${getWeekday(currentDate)}`;
+
+      const container = document.getElementById('checklistContainer');
+      container.innerHTML = '';
+
+      if (currentData.checklist.length === 0) {
+        container.innerHTML = '<div class="empty-state">暂无工作，点击上方添加</div>';
+      } else {
+        currentData.checklist.forEach((item, idx) => {
+          const div = document.createElement('div');
+          div.className = 'checklist-item';
+          div.innerHTML = `
+            <input type="checkbox" ${item.done ? 'checked' : ''} data-idx="${idx}">
+            <div class="text ${item.done ? 'done' : ''}">${escapeHtml(item.text)}</div>
+            <div class="delete" data-idx="${idx}">×</div>
+          `;
+          container.appendChild(div);
+        });
+      }
+
+      updateStats();
+      bindEvents();
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function bindEvents() {
+      document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(cb => {
+        cb.addEventListener('change', () => {
+          const idx = Number(cb.dataset.idx);
+          currentData.checklist[idx].done = cb.checked;
+          render();
+        });
+      });
+
+      document.querySelectorAll('.checklist-item .delete').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = Number(btn.dataset.idx);
+          currentData.checklist.splice(idx, 1);
+          render();
+        });
+      });
+    }
+
+    function addTask() {
+      const input = document.getElementById('newTaskInput');
+      const text = input.value.trim();
+      if (!text) return;
+      currentData.checklist.push({ text, done: false });
+      input.value = '';
+      render();
+    }
+
+    document.getElementById('addTaskBtn').addEventListener('click', addTask);
+    document.getElementById('newTaskInput').addEventListener('keypress', e => {
+      if (e.key === 'Enter') addTask();
+    });
+
+    document.getElementById('prevDate').addEventListener('click', () => {
+      currentDate.setDate(currentDate.getDate() - 1);
+      render();
+    });
+
+    document.getElementById('nextDate').addEventListener('click', () => {
+      currentDate.setDate(currentDate.getDate() + 1);
+      render();
+    });
+
+    document.getElementById('saveBtn').addEventListener('click', () => {
+      const dateKey = formatDate(currentDate);
+      saveData(dateKey, currentData);
+    });
+
+    render();
+  </script>
+</body>
+</html>
