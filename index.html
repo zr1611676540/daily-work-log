@@ -170,18 +170,21 @@
       gap: 4px;
     }
 
-    .countdown-card select {
+    .countdown-card input[type="date"] {
       border: none;
       background: rgba(255,255,255,0.25);
       color: #fff;
       border-radius: 6px;
-      padding: 3px 6px;
+      padding: 4px 6px;
       font-size: 12px;
       outline: none;
+      font-family: inherit;
+      text-align: center;
     }
 
-    .countdown-card select option {
-      color: #333;
+    .countdown-card input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+      cursor: pointer;
     }
 
     .countdown-card .text {
@@ -580,11 +583,8 @@
             <div class="value" id="totalDuration">0h</div>
           </div>
           <div class="countdown-card">
-            <select id="targetDateSelect">
-              <option value="2026-09-19">9月19日</option>
-              <option value="2026-11-28">11月28日</option>
-            </select>
-            <div class="text" id="countdownText">距离9月19日还有</div>
+            <input type="date" id="targetDateSelect" min="2026-09-01" value="2026-09-19">
+            <div class="text" id="countdownText">距离目标还有</div>
             <div class="days" id="countdownDays">0 天</div>
           </div>
         </div>
@@ -783,12 +783,15 @@
     }
 
     function updateCountdown() {
-      const select = document.getElementById('targetDateSelect');
-      const targetStr = select.value;
+      const input = document.getElementById('targetDateSelect');
+      const targetStr = input.value;
+      if (!targetStr) {
+        document.getElementById('countdownDays').textContent = '-';
+        return;
+      }
       const target = new Date(targetStr + 'T00:00:00');
       const days = daysBetween(currentDate, target);
-      const label = select.options[select.selectedIndex].text;
-      document.getElementById('countdownText').textContent = `距离${label}还有`;
+      document.getElementById('countdownText').textContent = '距离目标还有';
       document.getElementById('countdownDays').textContent = `${days} 天`;
     }
 
@@ -935,10 +938,78 @@
       }
     }
 
-    const LUNAR_MAP = {
-      '2026-08-01': '建军节', '2026-08-07': '立秋', '2026-08-19': '医师节',
-      '2026-08-23': '处暑', '2026-08-27': '中元节', '2026-09-19': '',
-      '2026-11-28': ''
+    const HOLIDAY_MAP = {
+      // 2026年节日
+      '2026-01-01': '元旦',
+      '2026-02-17': '春节',
+      '2026-02-18': '初二',
+      '2026-02-19': '初三',
+      '2026-02-20': '初四',
+      '2026-02-21': '初五',
+      '2026-02-22': '初六',
+      '2026-02-23': '初七',
+      '2026-04-05': '清明',
+      '2026-05-01': '劳动节',
+      '2026-05-02': '劳动节',
+      '2026-05-03': '劳动节',
+      '2026-05-31': '端午',
+      '2026-06-01': '儿童节',
+      '2026-06-19': '父亲节',
+      '2026-06-21': '夏至',
+      '2026-07-01': '建党节',
+      '2026-07-07': '小暑',
+      '2026-07-22': '大暑',
+      '2026-08-01': '建军节',
+      '2026-08-07': '立秋',
+      '2026-08-08': '父亲节',
+      '2026-08-15': '中秋',
+      '2026-08-19': '医师节',
+      '2026-08-22': '处暑',
+      '2026-08-23': '处暑',
+      '2026-08-27': '中元节',
+      '2026-09-01': '开学',
+      '2026-09-07': '白露',
+      '2026-09-10': '教师节',
+      '2026-09-19': '',
+      '2026-09-23': '秋分',
+      '2026-10-01': '国庆',
+      '2026-10-02': '国庆',
+      '2026-10-03': '国庆',
+      '2026-10-04': '国庆',
+      '2026-10-05': '国庆',
+      '2026-10-06': '国庆',
+      '2026-10-07': '国庆',
+      '2026-10-08': '寒露',
+      '2026-10-23': '霜降',
+      '2026-11-07': '立冬',
+      '2026-11-11': '光棍节',
+      '2026-11-22': '小雪',
+      '2026-11-28': '',
+      '2026-12-07': '大雪',
+      '2026-12-21': '冬至',
+      '2026-12-24': '平安夜',
+      '2026-12-25': '圣诞节',
+      // 2027年节日
+      '2027-01-01': '元旦',
+      '2027-02-06': '春节',
+      '2027-02-07': '初二',
+      '2027-02-08': '初三',
+      '2027-02-09': '初四',
+      '2027-02-10': '初五',
+      '2027-02-11': '初六',
+      '2027-02-12': '初七',
+      '2027-04-05': '清明',
+      '2027-05-01': '劳动节',
+      '2027-05-02': '劳动节',
+      '2027-05-03': '劳动节',
+      '2027-06-09': '端午',
+      '2027-10-01': '国庆',
+      '2027-10-02': '国庆',
+      '2027-10-03': '国庆',
+      '2027-10-04': '国庆',
+      '2027-10-05': '国庆',
+      '2027-10-06': '国庆',
+      '2027-10-07': '国庆'
     };
 
     function renderCalendar() {
@@ -986,7 +1057,7 @@
       let lunarText = '';
       if (!otherMonth && date) {
         const key = formatDate(date);
-        lunarText = LUNAR_MAP[key] || '';
+        lunarText = HOLIDAY_MAP[key] || '';
       }
 
       div.innerHTML = `<div>${d}</div>${lunarText ? `<div class="lunar">${lunarText}</div>` : ''}`;
