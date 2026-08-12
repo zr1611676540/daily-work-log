@@ -5,16 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>每日工作记录</title>
   <style>
-    :root {
-      --primary: #2c7be5;
-      --bg: #f5f7fa;
-      --card: #ffffff;
-      --text: #1a1a1a;
-      --sub: #666;
-      --border: #e1e4e8;
-      --danger: #dc3545;
-    }
-
     * {
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
@@ -23,194 +13,115 @@
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      font-size: 16px;
-      line-height: 1.5;
+      background: #f5f5f5;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 12px;
     }
 
     .header {
-      background: var(--card);
-      padding: 16px;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    .date-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 12px;
     }
 
-    .date-bar button {
-      background: var(--primary);
+    .header button {
+      background: #ff8c42;
       color: #fff;
       border: none;
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
-      font-size: 18px;
+      font-size: 16px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
-    .date-bar .date-title {
+    .date-title {
       font-size: 18px;
       font-weight: 600;
+      text-align: center;
     }
 
     .weekday {
       text-align: center;
-      color: var(--sub);
-      font-size: 14px;
-      margin-top: -8px;
-    }
-
-    .summary-bar {
-      display: flex;
-      gap: 12px;
-      margin-top: 12px;
-    }
-
-    .summary-item {
-      flex: 1;
-      background: #eef4fd;
-      padding: 10px;
-      border-radius: 10px;
-      text-align: center;
-    }
-
-    .summary-item .num {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--primary);
-    }
-
-    .summary-item .label {
-      font-size: 12px;
-      color: var(--sub);
-    }
-
-    .section {
-      margin: 12px;
-      background: var(--card);
-      border-radius: 14px;
-      padding: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    }
-
-    .section-title {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .section-title .badge {
-      font-size: 12px;
-      background: var(--primary);
-      color: #fff;
-      padding: 2px 8px;
-      border-radius: 10px;
-    }
-
-    .time-slot {
-      margin-bottom: 18px;
-      padding-bottom: 18px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .time-slot:last-child {
-      margin-bottom: 0;
-      padding-bottom: 0;
-      border-bottom: none;
-    }
-
-    .slot-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-
-    .slot-name {
-      font-weight: 600;
-      color: var(--primary);
-    }
-
-    .slot-duration {
-      font-size: 14px;
-      color: var(--sub);
-    }
-
-    .form-row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 10px;
-      align-items: center;
-    }
-
-    .form-row label {
+      color: #888;
       font-size: 13px;
-      color: var(--sub);
-      min-width: 48px;
-      flex-shrink: 0;
+      margin-top: 2px;
+      margin-bottom: 12px;
     }
 
-    input[type="text"], input[type="time"], textarea {
-      flex: 1;
-      border: 1px solid var(--border);
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
       border-radius: 8px;
-      padding: 10px 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    th, td {
+      border: 1px solid #e8e8e8;
+      padding: 8px 6px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    th {
+      background: #ff8c42;
+      color: #fff;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .type-cell {
+      background: #ffecd9;
+      color: #d35400;
+      font-weight: 600;
       font-size: 15px;
-      outline: none;
-      -webkit-appearance: none;
     }
 
-    input[type="time"] {
-      min-width: 90px;
+    .work-cell {
+      background: #e8f5e9;
+      color: #2e7d32;
     }
 
-    textarea {
+    .duration-highlight {
+      background: #e3f2fd;
+      color: #1976d2;
+      font-weight: 600;
+      border-radius: 4px;
+      padding: 2px 6px;
+      display: inline-block;
+    }
+
+    .review-row td {
+      padding: 0;
+      background: #fff7ed;
+    }
+
+    .review-row textarea {
       width: 100%;
       min-height: 80px;
+      border: none;
+      padding: 12px;
+      font-size: 14px;
       resize: vertical;
+      outline: none;
       font-family: inherit;
+      background: transparent;
     }
 
-    .adjust-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .adjust-row input {
-      width: 60px;
-      flex: none;
-      text-align: center;
-    }
-
-    .adjust-row span {
-      font-size: 13px;
-      color: var(--sub);
-    }
-
-    .review textarea {
-      min-height: 120px;
-    }
-
-    .footer {
-      text-align: center;
-      padding: 20px;
-      color: var(--sub);
-      font-size: 12px;
+    .review-label {
+      background: #ff8c42;
+      color: #fff;
+      font-weight: 600;
+      writing-mode: horizontal-tb;
     }
 
     .save-hint {
@@ -233,76 +144,75 @@
       opacity: 1;
     }
 
-    .empty-state {
+    .footer {
       text-align: center;
-      color: var(--sub);
-      padding: 20px;
-      font-size: 14px;
-    }
-
-    .danger-btn {
-      background: var(--danger);
-      color: #fff;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 8px;
-      font-size: 13px;
-      cursor: pointer;
+      padding: 16px;
+      color: #999;
+      font-size: 12px;
     }
   </style>
 </head>
 <body>
-  <div class="header">
-    <div class="date-bar">
+  <div class="container">
+    <div class="header">
       <button id="prevDate">‹</button>
-      <div class="date-title" id="dateTitle">2026-08-12</div>
+      <div>
+        <div class="date-title" id="dateTitle">2026-08-12</div>
+        <div class="weekday" id="weekday">星期三</div>
+      </div>
       <button id="nextDate">›</button>
     </div>
-    <div class="weekday" id="weekday">星期三</div>
-    <div class="summary-bar">
-      <div class="summary-item">
-        <div class="num" id="totalSlots">4</div>
-        <div class="label">工作时段</div>
-      </div>
-      <div class="summary-item">
-        <div class="num" id="totalHours">0.0</div>
-        <div class="label">总时长(h)</div>
-      </div>
-      <div class="summary-item">
-        <div class="num" id="filledSlots">0</div>
-        <div class="label">已填写</div>
-      </div>
-    </div>
-  </div>
 
-  <div class="section">
-    <div class="section-title">
-      工作时段记录
-      <span class="badge">自动保存</span>
-    </div>
-    <div id="slotsContainer"></div>
-  </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%">工作类型</th>
+          <th style="width:22%">具体工作</th>
+          <th style="width:16%">开始时间</th>
+          <th style="width:16%">结束时间</th>
+          <th style="width:14%">时长</th>
+          <th style="width:14%">时长调整</th>
+        </tr>
+      </thead>
+      <tbody id="workTableBody"></tbody>
+      <tfoot>
+        <tr class="review-row">
+          <td class="review-label">今日复盘</td>
+          <td colspan="5">
+            <textarea id="reviewText" placeholder="记录今天的收获、不足和明天计划..."></textarea>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
 
-  <div class="section review">
-    <div class="section-title">
-      今日复盘
-      <button class="danger-btn" id="clearToday" style="display:none;">清空今日</button>
-    </div>
-    <textarea id="reviewText" placeholder="记录今天的收获、不足和明天计划..."></textarea>
-  </div>
-
-  <div class="footer">
-    数据仅保存在当前手机浏览器中
+    <div class="footer">数据保存在当前手机浏览器中</div>
   </div>
 
   <div class="save-hint" id="saveHint">已自动保存</div>
 
   <script>
-    const SLOTS = [
-      { name: '上午', defaultStart: '09:00', defaultEnd: '12:00' },
-      { name: '中午', defaultStart: '12:00', defaultEnd: '14:00' },
-      { name: '下午', defaultStart: '14:00', defaultEnd: '18:00' },
-      { name: '晚上', defaultStart: '18:00', defaultEnd: '21:00' },
+    const SCHEDULE = [
+      { type: '上午', rows: [
+        { work: 'Start', start: '5:30', end: '7:30', duration: '2h', adjust: '✅' },
+        { work: 'Other', start: '7:30', end: '8:30', duration: '', adjust: '' },
+        { work: 'Start', start: '8:30', end: '9:30', duration: '0.5h', adjust: '➕' },
+        { work: '', start: '9:30', end: '12:00', duration: '', adjust: '' },
+      ]},
+      { type: '中午', rows: [
+        { work: '', start: '12:00', end: '13:00', duration: '', adjust: '' },
+        { work: 'Start', start: '13:00', end: '13:30', duration: '0.5h', adjust: '✅' },
+        { work: '', start: '13:30', end: '14:00', duration: '', adjust: '' },
+      ]},
+      { type: '下午', rows: [
+        { work: '', start: '14:00', end: '18:30', duration: '', adjust: '' },
+        { work: 'Start', start: '18:30', end: '19:30', duration: '0.5h', adjust: '➕' },
+        { work: '', start: '19:30', end: '20:00', duration: '', adjust: '' },
+      ]},
+      { type: '晚上', rows: [
+        { work: '', start: '20:00', end: '21:00', duration: '', adjust: '' },
+        { work: 'Start', start: '21:00', end: '23:00', duration: '2h', adjust: '➖' },
+        { work: '', start: '23:00', end: '23:30', duration: '', adjust: '' },
+      ]},
     ];
 
     let currentDate = new Date();
@@ -319,23 +229,13 @@
       return days[date.getDay()];
     }
 
-    function loadData(dateKey) {
-      const raw = localStorage.getItem('workLog_' + dateKey);
-      if (raw) return JSON.parse(raw);
-      return {
-        slots: SLOTS.map(s => ({
-          name: s.name,
-          content: '',
-          start: s.defaultStart,
-          end: s.defaultEnd,
-          adjust: 0
-        })),
-        review: ''
-      };
+    function loadReview(dateKey) {
+      const raw = localStorage.getItem('workReview_' + dateKey);
+      return raw || '';
     }
 
-    function saveData(dateKey, data) {
-      localStorage.setItem('workLog_' + dateKey, JSON.stringify(data));
+    function saveReview(dateKey, text) {
+      localStorage.setItem('workReview_' + dateKey, text);
       showHint();
     }
 
@@ -345,97 +245,38 @@
       setTimeout(() => hint.classList.remove('show'), 1200);
     }
 
-    function calcDuration(start, end, adjust) {
-      if (!start || !end) return 0;
-      const [sh, sm] = start.split(':').map(Number);
-      const [eh, em] = end.split(':').map(Number);
-      let minutes = (eh * 60 + em) - (sh * 60 + sm);
-      if (minutes < 0) minutes += 24 * 60;
-      return parseFloat(((minutes + Number(adjust || 0)) / 60).toFixed(2));
-    }
-
     function render() {
       const dateKey = formatDate(currentDate);
-      const isToday = dateKey === formatDate(new Date());
       document.getElementById('dateTitle').textContent = dateKey;
       document.getElementById('weekday').textContent = getWeekday(currentDate);
-      document.getElementById('clearToday').style.display = isToday ? 'inline-block' : 'none';
 
-      const data = loadData(dateKey);
-      const container = document.getElementById('slotsContainer');
-      container.innerHTML = '';
+      const tbody = document.getElementById('workTableBody');
+      tbody.innerHTML = '';
 
-      let total = 0;
-      let filled = 0;
+      SCHEDULE.forEach(group => {
+        group.rows.forEach((row, idx) => {
+          const tr = document.createElement('tr');
 
-      data.slots.forEach((slot, idx) => {
-        const dur = calcDuration(slot.start, slot.end, slot.adjust);
-        total += dur;
-        if (slot.content.trim()) filled++;
+          const typeCell = idx === 0
+            ? `<td class="type-cell" rowspan="${group.rows.length}">${group.type}</td>`
+            : '';
 
-        const div = document.createElement('div');
-        div.className = 'time-slot';
-        div.innerHTML = `
-          <div class="slot-header">
-            <span class="slot-name">${slot.name}</span>
-            <span class="slot-duration">时长 ${dur.toFixed(2)}h</span>
-          </div>
-          <div class="form-row">
-            <label>工作</label>
-            <input type="text" class="content" data-idx="${idx}" value="${escapeHtml(slot.content)}" placeholder="填写具体工作内容">
-          </div>
-          <div class="form-row">
-            <label>开始</label>
-            <input type="time" class="start" data-idx="${idx}" value="${slot.start}">
-            <label>结束</label>
-            <input type="time" class="end" data-idx="${idx}" value="${slot.end}">
-          </div>
-          <div class="form-row adjust-row">
-            <label>调整</label>
-            <input type="text" class="adjust" data-idx="${idx}" value="${slot.adjust || 0}">
-            <span>分钟（正数加、负数减）</span>
-          </div>
-        `;
-        container.appendChild(div);
-      });
+          const durClass = row.duration ? 'duration-highlight' : '';
 
-      document.getElementById('totalSlots').textContent = data.slots.length;
-      document.getElementById('totalHours').textContent = total.toFixed(1);
-      document.getElementById('filledSlots').textContent = filled;
-      document.getElementById('reviewText').value = data.review;
+          tr.innerHTML = `
+            ${typeCell}
+            <td class="work-cell">${row.work}</td>
+            <td>${row.start}</td>
+            <td>${row.end}</td>
+            <td><span class="${durClass}">${row.duration}</span></td>
+            <td>${row.adjust}</td>
+          `;
 
-      bindEvents(data, dateKey);
-    }
-
-    function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
-    }
-
-    function bindEvents(data, dateKey) {
-      const update = () => {
-        data.slots.forEach((slot, idx) => {
-          const root = document.querySelectorAll('.time-slot')[idx];
-          slot.content = root.querySelector('.content').value;
-          slot.start = root.querySelector('.start').value;
-          slot.end = root.querySelector('.end').value;
-          slot.adjust = root.querySelector('.adjust').value;
+          tbody.appendChild(tr);
         });
-        data.review = document.getElementById('reviewText').value;
-        saveData(dateKey, data);
-        render();
-      };
-
-      document.querySelectorAll('.time-slot input, #reviewText').forEach(el => {
-        el.addEventListener('change', update);
-        el.addEventListener('blur', update);
       });
 
-      document.getElementById('reviewText').addEventListener('input', () => {
-        data.review = document.getElementById('reviewText').value;
-        saveData(dateKey, data);
-      });
+      document.getElementById('reviewText').value = loadReview(dateKey);
     }
 
     document.getElementById('prevDate').addEventListener('click', () => {
@@ -448,11 +289,8 @@
       render();
     });
 
-    document.getElementById('clearToday').addEventListener('click', () => {
-      if (!confirm('确定清空今日所有记录吗？')) return;
-      const dateKey = formatDate(currentDate);
-      localStorage.removeItem('workLog_' + dateKey);
-      render();
+    document.getElementById('reviewText').addEventListener('input', () => {
+      saveReview(formatDate(currentDate), document.getElementById('reviewText').value);
     });
 
     render();
