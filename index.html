@@ -53,8 +53,10 @@
     .header {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
+      gap: 16px;
       margin-bottom: 14px;
+      position: relative;
     }
 
     .header button {
@@ -67,6 +69,17 @@
       font-size: 18px;
       cursor: pointer;
       box-shadow: 0 2px 6px rgba(102,126,234,0.3);
+    }
+
+    .today-btn {
+      position: absolute;
+      right: 0;
+      background: linear-gradient(135deg, #ff9a56, #ff7043) !important;
+      font-size: 12px !important;
+      width: auto !important;
+      padding: 0 12px !important;
+      border-radius: 17px !important;
+      height: 34px !important;
     }
 
     .date-title {
@@ -160,33 +173,12 @@
     }
 
     input[type="text"].duration-input {
-      width: 44px;
-    }
-
-    .duration-highlight {
-      background: linear-gradient(180deg, #e3f2fd, #bbdefb);
-      color: #1565c0;
-      font-weight: 700;
-      border-radius: 10px;
-      padding: 2px 5px;
-      display: inline-block;
-      min-width: 38px;
-      font-size: 12px;
+      width: 50px;
     }
 
     .adjust-cell {
       color: #7f8c8d;
       font-size: 13px;
-    }
-
-    .done-select {
-      border: 1px solid #e0e0e0;
-      background: #fff;
-      border-radius: 6px;
-      padding: 4px 2px;
-      font-size: 12px;
-      outline: none;
-      color: #333;
     }
 
     .review-row td {
@@ -209,8 +201,8 @@
     }
 
     .review-label {
-      background: linear-gradient(180deg, #ff9a56, #ff7043);
-      color: #fff;
+      background: linear-gradient(180deg, #fff3e6, #ffe8d1);
+      color: #d35400;
       font-weight: 700;
       font-size: 14px;
     }
@@ -397,6 +389,7 @@
           <div class="weekday" id="weekday">星期三</div>
         </div>
         <button id="nextDate">›</button>
+        <button class="today-btn" id="todayBtn">今日</button>
       </div>
 
       <div class="summary-card">
@@ -407,20 +400,19 @@
       <table>
         <thead>
           <tr>
-            <th style="width:14%">工作类型</th>
-            <th style="width:16%">具体工作</th>
-            <th style="width:15%">开始时间</th>
-            <th style="width:15%">结束时间</th>
-            <th style="width:13%">时长</th>
-            <th style="width:13%">时长调整</th>
-            <th style="width:14%">完成情况</th>
+            <th style="width:16%">工作类型</th>
+            <th style="width:18%">具体工作</th>
+            <th style="width:18%">开始时间</th>
+            <th style="width:18%">结束时间</th>
+            <th style="width:16%">时长</th>
+            <th style="width:14%">时长调整</th>
           </tr>
         </thead>
         <tbody id="workTableBody"></tbody>
         <tfoot>
           <tr class="review-row">
             <td class="review-label">今日<br>复盘</td>
-            <td colspan="6">
+            <td colspan="5">
               <textarea id="reviewText" placeholder="记录今天的收获、不足和明天计划..."></textarea>
             </td>
           </tr>
@@ -437,6 +429,7 @@
           <div class="weekday" id="weekdayCheck">星期三</div>
         </div>
         <button id="nextDateCheck">›</button>
+        <button class="today-btn" id="todayBtnCheck">今日</button>
       </div>
 
       <div class="stats-row">
@@ -470,28 +463,28 @@
   <div class="save-hint" id="saveHint">已保存</div>
 
   <script>
-    // 默认表格数据：完全按你给出的图片内容
+    // 默认表格数据
     const DEFAULT_SCHEDULE = [
       { type: '上午', rows: [
-        { work: 'Start', start: '05:30', end: '07:30', duration: '2h', adjust: '✅', done: '是' },
-        { work: 'Other', start: '07:30', end: '08:30', duration: '', adjust: '', done: '' },
-        { work: 'Start', start: '08:30', end: '09:30', duration: '0.5h', adjust: '➕', done: '是' },
-        { work: '', start: '09:30', end: '12:00', duration: '', adjust: '', done: '' },
+        { work: 'Start', start: '05:30', end: '07:30', duration: '2h', adjust: '✅' },
+        { work: 'Other', start: '07:30', end: '08:30', duration: '', adjust: '' },
+        { work: 'Start', start: '08:30', end: '09:30', duration: '0.5h', adjust: '➕' },
+        { work: '', start: '09:30', end: '12:00', duration: '', adjust: '' },
       ]},
       { type: '中午', rows: [
-        { work: '', start: '12:00', end: '13:00', duration: '', adjust: '', done: '' },
-        { work: 'Start', start: '13:00', end: '13:30', duration: '0.5h', adjust: '✅', done: '是' },
-        { work: '', start: '13:30', end: '14:00', duration: '', adjust: '', done: '' },
+        { work: '', start: '12:00', end: '13:00', duration: '', adjust: '' },
+        { work: 'Start', start: '13:00', end: '13:30', duration: '0.5h', adjust: '✅' },
+        { work: '', start: '13:30', end: '14:00', duration: '', adjust: '' },
       ]},
       { type: '下午', rows: [
-        { work: '', start: '14:00', end: '18:30', duration: '', adjust: '', done: '' },
-        { work: 'Start', start: '18:30', end: '19:30', duration: '0.5h', adjust: '➕', done: '是' },
-        { work: '', start: '19:30', end: '20:00', duration: '', adjust: '', done: '' },
+        { work: '', start: '14:00', end: '18:30', duration: '', adjust: '' },
+        { work: 'Start', start: '18:30', end: '19:30', duration: '0.5h', adjust: '➕' },
+        { work: '', start: '19:30', end: '20:00', duration: '', adjust: '' },
       ]},
       { type: '晚上', rows: [
-        { work: '', start: '20:00', end: '21:00', duration: '', adjust: '', done: '' },
-        { work: 'Start', start: '21:00', end: '23:00', duration: '2h', adjust: '➖', done: '是' },
-        { work: '', start: '23:00', end: '23:30', duration: '', adjust: '', done: '' },
+        { work: '', start: '20:00', end: '21:00', duration: '', adjust: '' },
+        { work: 'Start', start: '21:00', end: '23:00', duration: '2h', adjust: '➖' },
+        { work: '', start: '23:00', end: '23:30', duration: '', adjust: '' },
       ]},
     ];
 
@@ -592,14 +585,6 @@
             ? `<input type="text" class="duration-input" data-group="${gIdx}" data-idx="${rIdx}" value="${row.duration}" placeholder="">`
             : '';
 
-          const doneOptions = row.work === 'Start'
-            ? `<select class="done-select" data-group="${gIdx}" data-idx="${rIdx}">
-                <option value="" ${row.done === '' ? 'selected' : ''}>-</option>
-                <option value="是" ${row.done === '是' ? 'selected' : ''}>是</option>
-                <option value="否" ${row.done === '否' ? 'selected' : ''}>否</option>
-              </select>`
-            : '';
-
           tr.innerHTML = `
             ${typeCell}
             <td class="work-cell">${row.work}</td>
@@ -607,7 +592,6 @@
             <td><input type="time" class="end" data-group="${gIdx}" data-idx="${rIdx}" value="${row.end}"></td>
             <td>${durHtml}</td>
             <td class="adjust-cell">${row.adjust}</td>
-            <td>${doneOptions}</td>
           `;
 
           tbody.appendChild(tr);
@@ -700,12 +684,10 @@
           const startInput = document.querySelector(`input.start[data-group="${gIdx}"][data-idx="${rIdx}"]`);
           const endInput = document.querySelector(`input.end[data-group="${gIdx}"][data-idx="${rIdx}"]`);
           const durInput = document.querySelector(`input.duration-input[data-group="${gIdx}"][data-idx="${rIdx}"]`);
-          const doneSelect = document.querySelector(`select.done-select[data-group="${gIdx}"][data-idx="${rIdx}"]`);
 
           if (startInput) row.start = startInput.value;
           if (endInput) row.end = endInput.value;
           if (durInput) row.duration = durInput.value;
-          if (doneSelect) row.done = doneSelect.value;
         });
       });
 
@@ -713,6 +695,15 @@
       saveData(dateKey, data);
       renderSchedule();
       renderChecklist();
+    }
+
+    function goToday() {
+      currentDate = new Date();
+      if (currentTab === 'schedulePage') {
+        renderSchedule();
+      } else {
+        renderChecklist();
+      }
     }
 
     // Tab 切换
@@ -748,6 +739,10 @@
       currentDate.setDate(currentDate.getDate() + 1);
       renderChecklist();
     });
+
+    // 一键返回当日
+    document.getElementById('todayBtn').addEventListener('click', goToday);
+    document.getElementById('todayBtnCheck').addEventListener('click', goToday);
 
     // 清单添加
     document.getElementById('addTaskBtn').addEventListener('click', addTask);
