@@ -13,39 +13,41 @@
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
-      background: #f5f5f5;
+      background: #f0f2f5;
       color: #333;
       font-size: 14px;
     }
 
     .container {
-      max-width: 480px;
+      max-width: 520px;
       margin: 0 auto;
-      padding: 12px;
+      padding: 14px;
     }
 
     .header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .header button {
-      background: #ff8c42;
+      background: linear-gradient(135deg, #ff7e5f, #feb47b);
       color: #fff;
       border: none;
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
-      font-size: 16px;
+      font-size: 18px;
       cursor: pointer;
+      box-shadow: 0 2px 6px rgba(255,126,95,0.3);
     }
 
     .date-title {
       font-size: 18px;
       font-weight: 600;
       text-align: center;
+      color: #2c3e50;
     }
 
     .weekday {
@@ -53,86 +55,108 @@
       color: #888;
       font-size: 13px;
       margin-top: 2px;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     table {
       width: 100%;
-      border-collapse: collapse;
+      border-collapse: separate;
+      border-spacing: 0;
       background: #fff;
-      border-radius: 8px;
+      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     }
 
     th, td {
-      border: 1px solid #e8e8e8;
-      padding: 8px 6px;
+      border: 1px solid #f0e6e0;
+      padding: 8px 4px;
       text-align: center;
       vertical-align: middle;
     }
 
     th {
-      background: #ff8c42;
+      background: linear-gradient(180deg, #ff9a56, #ff7043);
       color: #fff;
       font-weight: 600;
       font-size: 13px;
+      text-shadow: 0 1px 1px rgba(0,0,0,0.1);
     }
 
     .type-cell {
-      background: #ffecd9;
+      background: linear-gradient(180deg, #fff3e6, #ffe8d1);
       color: #d35400;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 15px;
     }
 
     .work-cell {
-      background: #e8f5e9;
-      color: #2e7d32;
+      background: #f6fff6;
+      color: #27ae60;
+      font-weight: 500;
+    }
+
+    input[type="time"] {
+      border: none;
+      background: transparent;
+      font-size: 13px;
+      color: #333;
+      text-align: center;
+      padding: 4px 0;
+      width: 64px;
+      outline: none;
+      -webkit-appearance: none;
     }
 
     .duration-highlight {
-      background: #e3f2fd;
-      color: #1976d2;
-      font-weight: 600;
-      border-radius: 4px;
+      background: linear-gradient(180deg, #e3f2fd, #bbdefb);
+      color: #1565c0;
+      font-weight: 700;
+      border-radius: 10px;
       padding: 2px 6px;
       display: inline-block;
+      min-width: 42px;
+    }
+
+    .adjust-cell {
+      color: #7f8c8d;
+      font-size: 13px;
     }
 
     .review-row td {
       padding: 0;
-      background: #fff7ed;
+      background: #fffbf5;
     }
 
     .review-row textarea {
       width: 100%;
-      min-height: 80px;
+      min-height: 90px;
       border: none;
-      padding: 12px;
+      padding: 14px;
       font-size: 14px;
       resize: vertical;
       outline: none;
       font-family: inherit;
       background: transparent;
+      line-height: 1.6;
     }
 
     .review-label {
-      background: #ff8c42;
+      background: linear-gradient(180deg, #ff9a56, #ff7043);
       color: #fff;
-      font-weight: 600;
-      writing-mode: horizontal-tb;
+      font-weight: 700;
+      font-size: 14px;
     }
 
     .save-hint {
       position: fixed;
-      bottom: 20px;
+      bottom: 24px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(0,0,0,0.75);
+      background: rgba(44,62,80,0.88);
       color: #fff;
-      padding: 10px 20px;
-      border-radius: 20px;
+      padding: 10px 22px;
+      border-radius: 22px;
       font-size: 14px;
       opacity: 0;
       transition: opacity 0.3s;
@@ -146,8 +170,8 @@
 
     .footer {
       text-align: center;
-      padding: 16px;
-      color: #999;
+      padding: 18px;
+      color: #aaa;
       font-size: 12px;
     }
   </style>
@@ -166,18 +190,18 @@
     <table>
       <thead>
         <tr>
-          <th style="width:18%">工作类型</th>
-          <th style="width:22%">具体工作</th>
-          <th style="width:16%">开始时间</th>
-          <th style="width:16%">结束时间</th>
-          <th style="width:14%">时长</th>
-          <th style="width:14%">时长调整</th>
+          <th style="width:16%">工作类型</th>
+          <th style="width:20%">具体工作</th>
+          <th style="width:17%">开始时间</th>
+          <th style="width:17%">结束时间</th>
+          <th style="width:15%">时长</th>
+          <th style="width:15%">时长调整</th>
         </tr>
       </thead>
       <tbody id="workTableBody"></tbody>
       <tfoot>
         <tr class="review-row">
-          <td class="review-label">今日复盘</td>
+          <td class="review-label">今日<br>复盘</td>
           <td colspan="5">
             <textarea id="reviewText" placeholder="记录今天的收获、不足和明天计划..."></textarea>
           </td>
@@ -191,27 +215,28 @@
   <div class="save-hint" id="saveHint">已自动保存</div>
 
   <script>
-    const SCHEDULE = [
+    // 默认结构：autoRows 为 true 的行才会根据开始结束时间自动计算时长
+    const DEFAULT_SCHEDULE = [
       { type: '上午', rows: [
-        { work: 'Start', start: '5:30', end: '7:30', duration: '2h', adjust: '✅' },
-        { work: 'Other', start: '7:30', end: '8:30', duration: '', adjust: '' },
-        { work: 'Start', start: '8:30', end: '9:30', duration: '0.5h', adjust: '➕' },
-        { work: '', start: '9:30', end: '12:00', duration: '', adjust: '' },
+        { work: 'Start', start: '5:30', end: '7:30', duration: '', adjust: '✅', auto: true },
+        { work: 'Other', start: '7:30', end: '8:30', duration: '', adjust: '', auto: false },
+        { work: 'Start', start: '8:30', end: '9:30', duration: '', adjust: '➕', auto: true },
+        { work: '', start: '9:30', end: '12:00', duration: '', adjust: '', auto: false },
       ]},
       { type: '中午', rows: [
-        { work: '', start: '12:00', end: '13:00', duration: '', adjust: '' },
-        { work: 'Start', start: '13:00', end: '13:30', duration: '0.5h', adjust: '✅' },
-        { work: '', start: '13:30', end: '14:00', duration: '', adjust: '' },
+        { work: '', start: '12:00', end: '13:00', duration: '', adjust: '', auto: false },
+        { work: 'Start', start: '13:00', end: '13:30', duration: '', adjust: '✅', auto: true },
+        { work: '', start: '13:30', end: '14:00', duration: '', adjust: '', auto: false },
       ]},
       { type: '下午', rows: [
-        { work: '', start: '14:00', end: '18:30', duration: '', adjust: '' },
-        { work: 'Start', start: '18:30', end: '19:30', duration: '0.5h', adjust: '➕' },
-        { work: '', start: '19:30', end: '20:00', duration: '', adjust: '' },
+        { work: '', start: '14:00', end: '18:30', duration: '', adjust: '', auto: false },
+        { work: 'Start', start: '18:30', end: '19:30', duration: '', adjust: '➕', auto: true },
+        { work: '', start: '19:30', end: '20:00', duration: '', adjust: '', auto: false },
       ]},
       { type: '晚上', rows: [
-        { work: '', start: '20:00', end: '21:00', duration: '', adjust: '' },
-        { work: 'Start', start: '21:00', end: '23:00', duration: '2h', adjust: '➖' },
-        { work: '', start: '23:00', end: '23:30', duration: '', adjust: '' },
+        { work: '', start: '20:00', end: '21:00', duration: '', adjust: '', auto: false },
+        { work: 'Start', start: '21:00', end: '23:00', duration: '', adjust: '➖', auto: true },
+        { work: '', start: '23:00', end: '23:30', duration: '', adjust: '', auto: false },
       ]},
     ];
 
@@ -229,13 +254,35 @@
       return days[date.getDay()];
     }
 
-    function loadReview(dateKey) {
-      const raw = localStorage.getItem('workReview_' + dateKey);
-      return raw || '';
+    function deepClone(obj) {
+      return JSON.parse(JSON.stringify(obj));
     }
 
-    function saveReview(dateKey, text) {
-      localStorage.setItem('workReview_' + dateKey, text);
+    function calcDuration(start, end) {
+      if (!start || !end) return '';
+      const [sh, sm] = start.split(':').map(Number);
+      const [eh, em] = end.split(':').map(Number);
+      let minutes = (eh * 60 + em) - (sh * 60 + sm);
+      if (minutes < 0) minutes += 24 * 60;
+      if (minutes === 0) return '0h';
+      const h = Math.floor(minutes / 60);
+      const m = minutes % 60;
+      if (h === 0) return `${m}min`;
+      if (m === 0) return `${h}h`;
+      return `${h}.${Math.round(m / 60 * 10) / 1}h`.replace(/\.0h$/, 'h');
+    }
+
+    function loadData(dateKey) {
+      const raw = localStorage.getItem('workLog_' + dateKey);
+      if (raw) return JSON.parse(raw);
+      return {
+        schedule: deepClone(DEFAULT_SCHEDULE),
+        review: ''
+      };
+    }
+
+    function saveData(dateKey, data) {
+      localStorage.setItem('workLog_' + dateKey, JSON.stringify(data));
       showHint();
     }
 
@@ -250,10 +297,11 @@
       document.getElementById('dateTitle').textContent = dateKey;
       document.getElementById('weekday').textContent = getWeekday(currentDate);
 
+      const data = loadData(dateKey);
       const tbody = document.getElementById('workTableBody');
       tbody.innerHTML = '';
 
-      SCHEDULE.forEach(group => {
+      data.schedule.forEach(group => {
         group.rows.forEach((row, idx) => {
           const tr = document.createElement('tr');
 
@@ -261,22 +309,47 @@
             ? `<td class="type-cell" rowspan="${group.rows.length}">${group.type}</td>`
             : '';
 
-          const durClass = row.duration ? 'duration-highlight' : '';
+          const dur = row.auto ? calcDuration(row.start, row.end) : row.duration;
+          const durHtml = dur ? `<span class="duration-highlight">${dur}</span>` : '';
 
           tr.innerHTML = `
             ${typeCell}
             <td class="work-cell">${row.work}</td>
-            <td>${row.start}</td>
-            <td>${row.end}</td>
-            <td><span class="${durClass}">${row.duration}</span></td>
-            <td>${row.adjust}</td>
+            <td><input type="time" class="start" data-group="${data.schedule.indexOf(group)}" data-idx="${idx}" value="${row.start}"></td>
+            <td><input type="time" class="end" data-group="${data.schedule.indexOf(group)}" data-idx="${idx}" value="${row.end}"></td>
+            <td>${durHtml}</td>
+            <td class="adjust-cell">${row.adjust}</td>
           `;
 
           tbody.appendChild(tr);
         });
       });
 
-      document.getElementById('reviewText').value = loadReview(dateKey);
+      document.getElementById('reviewText').value = data.review;
+      bindEvents(data, dateKey);
+    }
+
+    function bindEvents(data, dateKey) {
+      const update = () => {
+        data.schedule.forEach((group, gIdx) => {
+          group.rows.forEach((row, rIdx) => {
+            const inputs = document.querySelectorAll(`input[data-group="${gIdx}"][data-idx="${rIdx}"]`);
+            inputs.forEach(input => {
+              if (input.classList.contains('start')) row.start = input.value;
+              if (input.classList.contains('end')) row.end = input.value;
+            });
+          });
+        });
+        data.review = document.getElementById('reviewText').value;
+        saveData(dateKey, data);
+        render();
+      };
+
+      document.querySelectorAll('input[type="time"]').forEach(input => {
+        input.addEventListener('change', update);
+      });
+
+      document.getElementById('reviewText').addEventListener('input', update);
     }
 
     document.getElementById('prevDate').addEventListener('click', () => {
@@ -287,10 +360,6 @@
     document.getElementById('nextDate').addEventListener('click', () => {
       currentDate.setDate(currentDate.getDate() + 1);
       render();
-    });
-
-    document.getElementById('reviewText').addEventListener('input', () => {
-      saveReview(formatDate(currentDate), document.getElementById('reviewText').value);
     });
 
     render();
