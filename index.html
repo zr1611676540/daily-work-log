@@ -291,7 +291,6 @@
       font-size: 14px;
     }
 
-    /* 日历弹窗 */
     .calendar-mask {
       position: fixed;
       top: 0;
@@ -451,7 +450,6 @@
       flex-shrink: 0;
     }
 
-    /* 工作清单样式 */
     .stats-row {
       display: flex;
       gap: 10px;
@@ -561,13 +559,11 @@
 </head>
 <body>
   <div class="app">
-    <!-- 顶部切换按钮 -->
     <div class="top-tabs">
       <div class="tab active" data-page="schedulePage">工作时段表</div>
       <div class="tab" data-page="checklistPage">工作清单</div>
     </div>
 
-    <!-- 工作时段表页面 -->
     <div id="schedulePage" class="page active">
       <div class="fixed-header">
         <div class="header">
@@ -618,7 +614,6 @@
       </div>
     </div>
 
-    <!-- 工作清单页面 -->
     <div id="checklistPage" class="page">
       <div class="fixed-header">
         <div class="header">
@@ -658,7 +653,6 @@
     <div class="footer">数据保存在当前手机浏览器中</div>
   </div>
 
-  <!-- 日历弹窗 -->
   <div class="calendar-mask" id="calendarMask">
     <div class="calendar-box" id="calendarBox">
       <div class="calendar-header">
@@ -939,10 +933,10 @@
       }
     }
 
-    // 农历简化显示（仅示例常用日期）
     const LUNAR_MAP = {
-      '2026-08-01': '建军节', '2026-08-07': '立秋', '2026-08-08': '廿六',
-      '2026-08-19': '医师节', '2026-08-23': '处暑', '2026-08-27': '中元节'
+      '2026-08-01': '建军节', '2026-08-07': '立秋', '2026-08-19': '医师节',
+      '2026-08-23': '处暑', '2026-08-27': '中元节', '2026-09-19': '',
+      '2026-11-28': ''
     };
 
     function renderCalendar() {
@@ -952,36 +946,30 @@
 
       const firstDay = new Date(y, m, 1);
       const lastDay = new Date(y, m + 1, 0);
-      const startDay = (firstDay.getDay() + 6) % 7; // 周一为0
+      const startDay = (firstDay.getDay() + 6) % 7;
       const daysInMonth = lastDay.getDate();
 
       const container = document.getElementById('calDays');
       container.innerHTML = '';
 
-      // 上月尾
       const prevLast = new Date(y, m, 0).getDate();
       for (let i = startDay - 1; i >= 0; i--) {
         const d = prevLast - i;
-        const cell = createCalDay(d, true, false);
-        container.appendChild(cell);
+        container.appendChild(createCalDay(d, true, false));
       }
 
-      // 当月
       const today = new Date();
       for (let d = 1; d <= daysInMonth; d++) {
         const date = new Date(y, m, d);
         const isToday = date.toDateString() === today.toDateString();
         const isSelected = date.toDateString() === currentDate.toDateString();
         const isWeekend = date.getDay() === 0 || date.getDay() === 6;
-        const cell = createCalDay(d, false, isWeekend, isToday, isSelected, date);
-        container.appendChild(cell);
+        container.appendChild(createCalDay(d, false, isWeekend, isToday, isSelected, date));
       }
 
-      // 下月头
       const remaining = (7 - ((startDay + daysInMonth) % 7)) % 7;
       for (let d = 1; d <= remaining; d++) {
-        const cell = createCalDay(d, true, false);
-        container.appendChild(cell);
+        container.appendChild(createCalDay(d, true, false));
       }
     }
 
@@ -1014,11 +1002,8 @@
     }
 
     function toggleCalendar() {
-      if (calendarOpen) {
-        closeCalendar();
-      } else {
-        openCalendar();
-      }
+      if (calendarOpen) closeCalendar();
+      else openCalendar();
     }
 
     function openCalendar() {
@@ -1033,41 +1018,21 @@
       calendarOpen = false;
     }
 
-    // Tab 切换
     document.querySelectorAll('.top-tabs .tab').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.top-tabs .tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
-
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(tab.dataset.page).classList.add('active');
         currentTab = tab.dataset.page;
       });
     });
 
-    // 日期切换 - 工作时段表
-    document.getElementById('prevDate').addEventListener('click', () => {
-      currentDate.setDate(currentDate.getDate() - 1);
-      renderSchedule();
-    });
+    document.getElementById('prevDate').addEventListener('click', () => { currentDate.setDate(currentDate.getDate() - 1); renderSchedule(); });
+    document.getElementById('nextDate').addEventListener('click', () => { currentDate.setDate(currentDate.getDate() + 1); renderSchedule(); });
+    document.getElementById('prevDateCheck').addEventListener('click', () => { currentDate.setDate(currentDate.getDate() - 1); renderChecklist(); });
+    document.getElementById('nextDateCheck').addEventListener('click', () => { currentDate.setDate(currentDate.getDate() + 1); renderChecklist(); });
 
-    document.getElementById('nextDate').addEventListener('click', () => {
-      currentDate.setDate(currentDate.getDate() + 1);
-      renderSchedule();
-    });
-
-    // 日期切换 - 工作清单
-    document.getElementById('prevDateCheck').addEventListener('click', () => {
-      currentDate.setDate(currentDate.getDate() - 1);
-      renderChecklist();
-    });
-
-    document.getElementById('nextDateCheck').addEventListener('click', () => {
-      currentDate.setDate(currentDate.getDate() + 1);
-      renderChecklist();
-    });
-
-    // 日历弹窗
     document.getElementById('dateTitle').addEventListener('click', toggleCalendar);
     document.getElementById('dateTitleCheck').addEventListener('click', toggleCalendar);
 
@@ -1075,33 +1040,19 @@
       if (e.target.id === 'calendarMask') closeCalendar();
     });
 
-    document.getElementById('calPrev').addEventListener('click', () => {
-      calendarViewDate.setMonth(calendarViewDate.getMonth() - 1);
-      renderCalendar();
-    });
+    document.getElementById('calPrev').addEventListener('click', () => { calendarViewDate.setMonth(calendarViewDate.getMonth() - 1); renderCalendar(); });
+    document.getElementById('calNext').addEventListener('click', () => { calendarViewDate.setMonth(calendarViewDate.getMonth() + 1); renderCalendar(); });
 
-    document.getElementById('calNext').addEventListener('click', () => {
-      calendarViewDate.setMonth(calendarViewDate.getMonth() + 1);
-      renderCalendar();
-    });
-
-    // 倒计时选择
     document.getElementById('targetDateSelect').addEventListener('change', updateCountdown);
 
-    // 一键返回当日
     document.getElementById('todayBtn').addEventListener('click', goToday);
     document.getElementById('todayBtnCheck').addEventListener('click', goToday);
 
-    // 清单添加
     document.getElementById('addTaskBtn').addEventListener('click', addTask);
-    document.getElementById('newTaskInput').addEventListener('keypress', e => {
-      if (e.key === 'Enter') addTask();
-    });
+    document.getElementById('newTaskInput').addEventListener('keypress', e => { if (e.key === 'Enter') addTask(); });
 
-    // 保存按钮
     document.getElementById('saveBtn').addEventListener('click', save);
 
-    // 初始化
     renderSchedule();
     renderChecklist();
   </script>
