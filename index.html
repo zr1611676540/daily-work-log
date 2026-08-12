@@ -10,34 +10,25 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      height: 100%;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
       background: #f5f6fa;
       color: #333;
       font-size: 14px;
-    }
-
-    .container {
-      max-width: 520px;
-      margin: 0 auto;
-      padding: 14px;
-      padding-bottom: 110px;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
       overflow: hidden;
     }
 
-    .fixed-top {
-      flex-shrink: 0;
-    }
-
-    .scroll-area {
-      flex: 1;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      padding-right: 2px;
+    .app {
+      max-width: 520px;
+      margin: 0 auto;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 14px;
+      padding-bottom: 70px;
     }
 
     .top-tabs {
@@ -47,6 +38,7 @@
       overflow: hidden;
       margin-bottom: 14px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      flex-shrink: 0;
     }
 
     .top-tabs .tab {
@@ -63,6 +55,22 @@
       background: linear-gradient(135deg, #667eea, #764ba2);
       color: #fff;
       font-weight: 600;
+    }
+
+    .page {
+      display: none;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    .fixed-header {
+      flex-shrink: 0;
     }
 
     .header {
@@ -117,7 +125,7 @@
       color: #fff;
       border-radius: 14px;
       padding: 16px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       box-shadow: 0 4px 12px rgba(102,126,234,0.25);
       text-align: center;
     }
@@ -131,6 +139,14 @@
       font-size: 28px;
       font-weight: 700;
       margin-top: 4px;
+    }
+
+    .scroll-box {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-right: 2px;
     }
 
     table {
@@ -222,17 +238,9 @@
       font-size: 14px;
     }
 
-    .page {
-      display: none;
-    }
-
-    .page.active {
-      display: block;
-    }
-
     .save-btn {
       position: fixed;
-      bottom: 70px;
+      bottom: 14px;
       left: 50%;
       transform: translateX(-50%);
       background: linear-gradient(135deg, #667eea, #764ba2);
@@ -254,7 +262,7 @@
 
     .save-hint {
       position: fixed;
-      bottom: 130px;
+      bottom: 74px;
       left: 50%;
       transform: translateX(-50%);
       background: rgba(44,62,80,0.88);
@@ -277,13 +285,14 @@
       padding: 12px;
       color: #aaa;
       font-size: 12px;
+      flex-shrink: 0;
     }
 
     /* 工作清单样式 */
     .stats-row {
       display: flex;
       gap: 10px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .stat-card {
@@ -388,18 +397,16 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="fixed-top">
-      <!-- 顶部切换按钮 -->
-      <div class="top-tabs">
-        <div class="tab active" data-page="schedulePage">工作时段表</div>
-        <div class="tab" data-page="checklistPage">工作清单</div>
-      </div>
+  <div class="app">
+    <!-- 顶部切换按钮 -->
+    <div class="top-tabs">
+      <div class="tab active" data-page="schedulePage">工作时段表</div>
+      <div class="tab" data-page="checklistPage">工作清单</div>
     </div>
 
     <!-- 工作时段表页面 -->
     <div id="schedulePage" class="page active">
-      <div class="fixed-top">
+      <div class="fixed-header">
         <div class="header">
           <button id="prevDate">‹</button>
           <div>
@@ -416,34 +423,34 @@
         </div>
       </div>
 
-      <div class="scroll-area">
+      <div class="scroll-box">
         <table>
-        <thead>
-          <tr>
-            <th style="width:16%">工作类型</th>
-            <th style="width:18%">具体工作</th>
-            <th style="width:18%">开始时间</th>
-            <th style="width:18%">结束时间</th>
-            <th style="width:16%">时长</th>
-            <th style="width:14%">时长调整</th>
-          </tr>
-        </thead>
-        <tbody id="workTableBody"></tbody>
-        <tfoot>
-          <tr class="review-row">
-            <td class="review-label">今日<br>复盘</td>
-            <td colspan="5">
-              <textarea id="reviewText" placeholder="记录今天的收获、不足和明天计划..."></textarea>
-            </td>
-          </tr>
-        </tfoot>
+          <thead>
+            <tr>
+              <th style="width:16%">工作类型</th>
+              <th style="width:18%">具体工作</th>
+              <th style="width:18%">开始时间</th>
+              <th style="width:18%">结束时间</th>
+              <th style="width:16%">时长</th>
+              <th style="width:14%">时长调整</th>
+            </tr>
+          </thead>
+          <tbody id="workTableBody"></tbody>
+          <tfoot>
+            <tr class="review-row">
+              <td class="review-label">今日<br>复盘</td>
+              <td colspan="5">
+                <textarea id="reviewText" placeholder="记录今天的收获、不足和明天计划..."></textarea>
+              </td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </div>
 
     <!-- 工作清单页面 -->
     <div id="checklistPage" class="page">
-      <div class="fixed-top">
+      <div class="fixed-header">
         <div class="header">
           <button id="prevDateCheck">‹</button>
           <div>
@@ -470,7 +477,7 @@
         </div>
       </div>
 
-      <div class="scroll-area">
+      <div class="scroll-box">
         <div class="card">
           <div class="input-row">
             <input type="text" id="newTaskInput" placeholder="输入要做的工作...">
