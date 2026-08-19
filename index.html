@@ -453,103 +453,161 @@
       flex-shrink: 0;
     }
 
-    .stats-row {
-      display: flex;
+    /* 统计页面 */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 10px;
       margin-bottom: 14px;
     }
 
-    .stat-card {
-      flex: 1;
+    .stat-cell {
       background: #fff;
       border-radius: 12px;
-      padding: 12px;
+      padding: 12px 6px;
       text-align: center;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
 
-    .stat-card .num {
-      font-size: 22px;
+    .stat-cell .num {
+      font-size: 18px;
       font-weight: 700;
       color: #667eea;
     }
 
-    .stat-card .label {
+    .stat-cell .label {
       font-size: 12px;
       color: #888;
       margin-top: 2px;
     }
 
-    .card {
+    .chart-section {
       background: #fff;
       border-radius: 12px;
-      padding: 16px;
+      padding: 14px;
+      margin-bottom: 14px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     }
 
-    .input-row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-
-    .input-row input {
-      flex: 1;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      padding: 11px 12px;
-      font-size: 14px;
-      outline: none;
-    }
-
-    .input-row button {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: 0 18px;
-      font-size: 14px;
+    .chart-title {
+      font-size: 15px;
       font-weight: 600;
+      margin-bottom: 14px;
+      color: #2c3e50;
+    }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .bar-label {
+      width: 38px;
+      font-size: 12px;
+      color: #666;
+      flex-shrink: 0;
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 18px;
+      background: #f0f0f0;
+      border-radius: 9px;
+      overflow: hidden;
+      margin: 0 8px;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      border-radius: 9px;
+      min-width: 2px;
+      transition: width 0.3s ease;
+    }
+
+    .bar-value {
+      width: 52px;
+      font-size: 12px;
+      color: #333;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .month-chart-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 4px;
+    }
+
+    .month-chart {
+      display: flex;
+      align-items: flex-end;
+      height: 150px;
+      gap: 10px;
+      min-width: 100%;
+      padding-top: 20px;
+    }
+
+    .vbar-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 46px;
+      flex-shrink: 0;
+    }
+
+    .vbar-value {
+      font-size: 10px;
+      color: #333;
+      margin-bottom: 3px;
+      white-space: nowrap;
+    }
+
+    .vbar-bar {
+      width: 22px;
+      background: linear-gradient(180deg, #ff9a56, #ff7043);
+      border-radius: 4px 4px 0 0;
+      min-height: 2px;
+      transition: height 0.3s ease;
+    }
+
+    .vbar-label {
+      font-size: 10px;
+      color: #888;
+      margin-top: 5px;
+      white-space: nowrap;
+    }
+
+    .history-section {
+      background: #fff;
+      border-radius: 12px;
+      padding: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 11px 0;
+      border-bottom: 1px solid #f0f0f0;
       cursor: pointer;
     }
 
-    .checklist-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 0;
-      border-bottom: 1px solid #f0f0f0;
-    }
-
-    .checklist-item:last-child {
+    .history-item:last-child {
       border-bottom: none;
     }
 
-    .checklist-item input[type="checkbox"] {
-      width: 22px;
-      height: 22px;
-      accent-color: #667eea;
-      flex-shrink: 0;
+    .history-date {
+      color: #666;
+      font-size: 13px;
     }
 
-    .checklist-item .text {
-      flex: 1;
-      font-size: 15px;
-      color: #333;
-      word-break: break-all;
-    }
-
-    .checklist-item .text.done {
-      text-decoration: line-through;
-      color: #999;
-    }
-
-    .checklist-item .delete {
-      color: #e74c3c;
-      font-size: 20px;
-      cursor: pointer;
-      padding: 0 6px;
-      flex-shrink: 0;
+    .history-hours {
+      font-weight: 600;
+      color: #667eea;
+      font-size: 14px;
     }
 
     .empty-state {
@@ -564,7 +622,7 @@
   <div class="app">
     <div class="top-tabs">
       <div class="tab active" data-page="schedulePage">工作时段表</div>
-      <div class="tab" data-page="checklistPage">工作清单</div>
+      <div class="tab" data-page="statsPage">统计</div>
     </div>
 
     <div id="schedulePage" class="page active">
@@ -615,39 +673,52 @@
       </div>
     </div>
 
-    <div id="checklistPage" class="page">
+    <div id="statsPage" class="page">
       <div class="fixed-header">
         <div class="header">
-          <button id="prevDateCheck">‹</button>
-          <div class="date-title" id="dateTitleCheck">2026-08-12</div>
-          <button id="nextDateCheck">›</button>
-          <button class="today-btn" id="todayBtnCheck">今日</button>
+          <button id="prevDateStats">‹</button>
+          <div class="date-title" id="dateTitleStats">2026-08-12</div>
+          <button id="nextDateStats">›</button>
+          <button class="today-btn" id="todayBtnStats">今日</button>
         </div>
-        <div class="weekday" id="weekdayCheck">星期三</div>
+        <div class="weekday" id="weekdayStats">星期三</div>
 
-        <div class="stats-row">
-          <div class="stat-card">
-            <div class="num" id="totalCount">0</div>
-            <div class="label">总任务</div>
+        <div class="stat-grid">
+          <div class="stat-cell">
+            <div class="num" id="dayHours">0h</div>
+            <div class="label">当日时长</div>
           </div>
-          <div class="stat-card">
-            <div class="num" id="doneCount">0</div>
-            <div class="label">已完成</div>
+          <div class="stat-cell">
+            <div class="num" id="weekHours">0h</div>
+            <div class="label">本周时长</div>
           </div>
-          <div class="stat-card">
-            <div class="num" id="undoneCount">0</div>
-            <div class="label">待完成</div>
+          <div class="stat-cell">
+            <div class="num" id="monthHours">0h</div>
+            <div class="label">本月时长</div>
+          </div>
+          <div class="stat-cell">
+            <div class="num" id="totalHours">0h</div>
+            <div class="label">累计时长</div>
           </div>
         </div>
       </div>
 
       <div class="scroll-box">
-        <div class="card">
-          <div class="input-row">
-            <input type="text" id="newTaskInput" placeholder="输入要做的工作...">
-            <button id="addTaskBtn">添加</button>
+        <div class="chart-section">
+          <div class="chart-title">每周每天 Start 时长</div>
+          <div id="weekdayChart"></div>
+        </div>
+
+        <div class="chart-section">
+          <div class="chart-title">每月 Start 总时长</div>
+          <div class="month-chart-scroll">
+            <div class="month-chart" id="monthChart"></div>
           </div>
-          <div id="checklistContainer"></div>
+        </div>
+
+        <div class="history-section">
+          <div class="chart-title">历史时长</div>
+          <div id="historyList"></div>
         </div>
       </div>
     </div>
@@ -673,27 +744,26 @@
   <div class="save-hint" id="saveHint">已保存</div>
 
   <script>
-    // 默认表格数据
     const DEFAULT_SCHEDULE = [
       { type: '上午', rows: [
-        { work: 'Start', start: '05:30', end: '07:30', duration: '2h', adjust: '✅' },
+        { work: 'Start', start: '05:30', end: '07:30', duration: '0', adjust: '✅' },
         { work: 'Other', start: '07:30', end: '08:30', duration: '', adjust: '' },
-        { work: 'Start', start: '08:30', end: '09:30', duration: '0.5h', adjust: '➕' },
+        { work: 'Start', start: '08:30', end: '09:30', duration: '0', adjust: '➕' },
         { work: '', start: '09:30', end: '12:00', duration: '', adjust: '' },
       ]},
       { type: '中午', rows: [
         { work: '', start: '12:00', end: '13:00', duration: '', adjust: '' },
-        { work: 'Start', start: '13:00', end: '13:30', duration: '0.5h', adjust: '✅' },
+        { work: 'Start', start: '13:00', end: '13:30', duration: '0', adjust: '✅' },
         { work: '', start: '13:30', end: '14:00', duration: '', adjust: '' },
       ]},
       { type: '下午', rows: [
         { work: '', start: '14:00', end: '18:30', duration: '', adjust: '' },
-        { work: 'Start', start: '18:30', end: '19:30', duration: '0.5h', adjust: '➕' },
+        { work: 'Start', start: '18:30', end: '19:30', duration: '0', adjust: '➕' },
         { work: '', start: '19:30', end: '20:00', duration: '', adjust: '' },
       ]},
       { type: '晚上', rows: [
         { work: '', start: '20:00', end: '21:00', duration: '', adjust: '' },
-        { work: 'Start', start: '21:00', end: '23:00', duration: '2h', adjust: '➖' },
+        { work: 'Start', start: '21:00', end: '23:00', duration: '0', adjust: '➖' },
         { work: '', start: '23:00', end: '23:30', duration: '', adjust: '' },
       ]},
     ];
@@ -732,6 +802,15 @@
       return isNaN(num) ? 0 : num;
     }
 
+    function formatHours(total) {
+      const h = Math.floor(total);
+      const m = Math.round((total - h) * 60);
+      if (h > 0 && m > 0) return `${h}h${m}min`;
+      if (h > 0) return `${h}h`;
+      if (m > 0) return `${m}min`;
+      return '0h';
+    }
+
     function daysBetween(d1, d2) {
       const t1 = new Date(d1.getFullYear(), d1.getMonth(), d1.getDate()).getTime();
       const t2 = new Date(d2.getFullYear(), d2.getMonth(), d2.getDate()).getTime();
@@ -743,7 +822,6 @@
       if (raw) {
         const data = JSON.parse(raw);
         if (!data.schedule) data.schedule = deepClone(DEFAULT_SCHEDULE);
-        if (!data.checklist) data.checklist = [];
         if (!('review' in data)) data.review = '';
         return data;
       }
@@ -774,12 +852,7 @@
           }
         });
       });
-      const h = Math.floor(total);
-      const m = Math.round((total - h) * 60);
-      let text = '';
-      if (h > 0) text += `${h}h`;
-      if (m > 0) text += `${m}min`;
-      document.getElementById('totalDuration').textContent = text || '0h';
+      document.getElementById('totalDuration').textContent = formatHours(total);
     }
 
     function updateCountdown() {
@@ -807,15 +880,12 @@
       data.schedule.forEach((group, gIdx) => {
         group.rows.forEach((row, rIdx) => {
           const tr = document.createElement('tr');
-
           const typeCell = rIdx === 0
             ? `<td class="type-cell" rowspan="${group.rows.length}">${group.type}</td>`
             : '';
-
           const durHtml = row.duration !== undefined
             ? `<input type="text" class="duration-input" data-group="${gIdx}" data-idx="${rIdx}" value="${row.duration}" placeholder="">`
             : '';
-
           tr.innerHTML = `
             ${typeCell}
             <td class="work-cell">${row.work}</td>
@@ -824,7 +894,6 @@
             <td>${durHtml}</td>
             <td class="adjust-cell">${row.adjust}</td>
           `;
-
           tbody.appendChild(tr);
         });
       });
@@ -834,181 +903,198 @@
       updateCountdown();
     }
 
-    function updateChecklistStats(data) {
-      const total = data.checklist.length;
-      const done = data.checklist.filter(i => i.done).length;
-      document.getElementById('totalCount').textContent = total;
-      document.getElementById('doneCount').textContent = done;
-      document.getElementById('undoneCount').textContent = total - done;
+    function calcDayHours(dateKey) {
+      const data = loadData(dateKey);
+      let total = 0;
+      data.schedule.forEach(g => g.rows.forEach(r => {
+        if (r.work === 'Start') total += durationToHours(r.duration);
+      }));
+      return total;
     }
 
-    function renderChecklist() {
+    function getAllHistory() {
+      const list = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (!key || !key.startsWith('workLog_')) continue;
+        const dateStr = key.slice(8);
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) continue;
+        try {
+          const data = JSON.parse(localStorage.getItem(key));
+          if (!data || !data.schedule) continue;
+          let hours = 0;
+          data.schedule.forEach(g => g.rows.forEach(r => {
+            if (r.work === 'Start') hours += durationToHours(r.duration);
+          }));
+          list.push({ date: dateStr, hours, dateObj: new Date(dateStr + 'T00:00:00') });
+        } catch (e) {}
+      }
+      list.sort((a, b) => b.dateObj - a.dateObj);
+      return list;
+    }
+
+    function getWeekdayStats(history) {
+      const stats = [
+        { label: '周一', hours: 0, count: 0 },
+        { label: '周二', hours: 0, count: 0 },
+        { label: '周三', hours: 0, count: 0 },
+        { label: '周四', hours: 0, count: 0 },
+        { label: '周五', hours: 0, count: 0 },
+        { label: '周六', hours: 0, count: 0 },
+        { label: '周日', hours: 0, count: 0 },
+      ];
+      history.forEach(item => {
+        const idx = (item.dateObj.getDay() + 6) % 7;
+        stats[idx].hours += item.hours;
+        stats[idx].count += 1;
+      });
+      return stats;
+    }
+
+    function getMonthStats(history) {
+      const map = {};
+      history.forEach(item => {
+        const month = item.date.slice(0, 7);
+        if (!map[month]) map[month] = 0;
+        map[month] += item.hours;
+      });
+      return Object.keys(map).sort().map(m => ({ label: m, hours: map[m] }));
+    }
+
+    function getWeekTotal(history, date) {
+      const day = date.getDay();
+      const diff = (day === 0 ? -6 : 1) - day;
+      const monday = new Date(date);
+      monday.setDate(date.getDate() + diff);
+      monday.setHours(0,0,0,0);
+      const sunday = new Date(monday);
+      sunday.setDate(monday.getDate() + 6);
+      sunday.setHours(23,59,59,999);
+      return history.filter(i => i.dateObj >= monday && i.dateObj <= sunday).reduce((s, i) => s + i.hours, 0);
+    }
+
+    function getMonthTotal(history, date) {
+      const prefix = formatDate(date).slice(0, 7);
+      return history.filter(i => i.date.startsWith(prefix)).reduce((s, i) => s + i.hours, 0);
+    }
+
+    function renderStats() {
       const dateKey = formatDate(currentDate);
-      document.getElementById('dateTitleCheck').textContent = dateKey;
-      document.getElementById('weekdayCheck').textContent = getWeekday(currentDate);
+      document.getElementById('dateTitleStats').textContent = dateKey;
+      document.getElementById('weekdayStats').textContent = getWeekday(currentDate);
 
-      const data = loadData(dateKey);
-      const container = document.getElementById('checklistContainer');
-      container.innerHTML = '';
+      const history = getAllHistory();
+      document.getElementById('dayHours').textContent = formatHours(calcDayHours(dateKey));
+      document.getElementById('weekHours').textContent = formatHours(getWeekTotal(history, currentDate));
+      document.getElementById('monthHours').textContent = formatHours(getMonthTotal(history, currentDate));
+      document.getElementById('totalHours').textContent = formatHours(history.reduce((s, i) => s + i.hours, 0));
 
-      if (data.checklist.length === 0) {
-        container.innerHTML = '<div class="empty-state">暂无工作，点击上方添加</div>';
+      const weekdayStats = getWeekdayStats(history);
+      const maxWeekday = Math.max(...weekdayStats.map(s => s.hours), 1);
+      const weekdayChart = document.getElementById('weekdayChart');
+      weekdayChart.innerHTML = '';
+      weekdayStats.forEach(s => {
+        const pct = (s.hours / maxWeekday) * 100;
+        const row = document.createElement('div');
+        row.className = 'bar-row';
+        row.innerHTML = `
+          <div class="bar-label">${s.label}</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+          <div class="bar-value">${formatHours(s.hours)}</div>
+        `;
+        weekdayChart.appendChild(row);
+      });
+
+      const monthStats = getMonthStats(history);
+      const monthChart = document.getElementById('monthChart');
+      monthChart.innerHTML = '';
+      if (monthStats.length === 0) {
+        monthChart.innerHTML = '<div class="empty-state">暂无月度数据</div>';
       } else {
-        data.checklist.forEach((item, idx) => {
-          const div = document.createElement('div');
-          div.className = 'checklist-item';
-          div.innerHTML = `
-            <input type="checkbox" ${item.done ? 'checked' : ''} data-idx="${idx}">
-            <div class="text ${item.done ? 'done' : ''}">${escapeHtml(item.text)}</div>
-            <div class="delete" data-idx="${idx}">×</div>
+        const maxMonth = Math.max(...monthStats.map(s => s.hours), 1);
+        monthStats.forEach(s => {
+          const pct = (s.hours / maxMonth) * 100;
+          const item = document.createElement('div');
+          item.className = 'vbar-item';
+          item.innerHTML = `
+            <div class="vbar-value">${formatHours(s.hours)}</div>
+            <div class="vbar-bar" style="height:${pct === 0 ? 2 : pct}%"></div>
+            <div class="vbar-label">${s.label}</div>
           `;
-          container.appendChild(div);
+          monthChart.appendChild(item);
         });
       }
 
-      updateChecklistStats(data);
-      bindChecklistEvents(data);
-    }
-
-    function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
-    }
-
-    function bindChecklistEvents(data) {
-      document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(cb => {
-        cb.addEventListener('change', () => {
-          const idx = Number(cb.dataset.idx);
-          data.checklist[idx].done = cb.checked;
-          updateChecklistStats(data);
-          renderChecklist();
+      const historyList = document.getElementById('historyList');
+      historyList.innerHTML = '';
+      if (history.length === 0) {
+        historyList.innerHTML = '<div class="empty-state">暂无历史记录</div>';
+      } else {
+        history.forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'history-item';
+          div.innerHTML = `
+            <div class="history-date">${item.date} ${getWeekday(item.dateObj)}</div>
+            <div class="history-hours">${formatHours(item.hours)}</div>
+          `;
+          div.addEventListener('click', () => {
+            currentDate = new Date(item.dateObj);
+            switchTab('schedulePage');
+            renderSchedule();
+          });
+          historyList.appendChild(div);
         });
-      });
-
-      document.querySelectorAll('.checklist-item .delete').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const idx = Number(btn.dataset.idx);
-          data.checklist.splice(idx, 1);
-          renderChecklist();
-        });
-      });
+      }
     }
 
-    function addTask() {
-      const input = document.getElementById('newTaskInput');
-      const text = input.value.trim();
-      if (!text) return;
-
-      const dateKey = formatDate(currentDate);
-      const data = loadData(dateKey);
-      data.checklist.push({ text, done: false });
-      input.value = '';
-      renderChecklist();
+    function switchTab(pageId) {
+      document.querySelectorAll('.top-tabs .tab').forEach(t => t.classList.toggle('active', t.dataset.page === pageId));
+      document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === pageId));
+      currentTab = pageId;
+      if (pageId === 'statsPage') renderStats();
     }
 
     function save() {
       const dateKey = formatDate(currentDate);
       const data = loadData(dateKey);
-
       data.schedule.forEach((group, gIdx) => {
         group.rows.forEach((row, rIdx) => {
           const startInput = document.querySelector(`input.start[data-group="${gIdx}"][data-idx="${rIdx}"]`);
           const endInput = document.querySelector(`input.end[data-group="${gIdx}"][data-idx="${rIdx}"]`);
           const durInput = document.querySelector(`input.duration-input[data-group="${gIdx}"][data-idx="${rIdx}"]`);
-
           if (startInput) row.start = startInput.value;
           if (endInput) row.end = endInput.value;
           if (durInput) row.duration = durInput.value;
         });
       });
-
       data.review = document.getElementById('reviewText').value;
       saveData(dateKey, data);
       renderSchedule();
-      renderChecklist();
     }
 
     function goToday() {
       currentDate = new Date();
-      if (currentTab === 'schedulePage') {
-        renderSchedule();
-      } else {
-        renderChecklist();
-      }
+      if (currentTab === 'schedulePage') renderSchedule();
+      else renderStats();
     }
 
     const HOLIDAY_MAP = {
-      // 2026年节日
-      '2026-01-01': '元旦',
-      '2026-02-17': '春节',
-      '2026-02-18': '初二',
-      '2026-02-19': '初三',
-      '2026-02-20': '初四',
-      '2026-02-21': '初五',
-      '2026-02-22': '初六',
-      '2026-02-23': '初七',
-      '2026-04-05': '清明',
-      '2026-05-01': '劳动节',
-      '2026-05-02': '劳动节',
-      '2026-05-03': '劳动节',
-      '2026-05-31': '端午',
-      '2026-06-01': '儿童节',
-      '2026-06-19': '父亲节',
-      '2026-06-21': '夏至',
-      '2026-07-01': '建党节',
-      '2026-07-07': '小暑',
-      '2026-07-22': '大暑',
-      '2026-08-01': '建军节',
-      '2026-08-07': '立秋',
-      '2026-08-08': '父亲节',
-      '2026-08-15': '中秋',
-      '2026-08-19': '医师节',
-      '2026-08-22': '处暑',
-      '2026-08-23': '处暑',
-      '2026-08-27': '中元节',
-      '2026-09-01': '开学',
-      '2026-09-07': '白露',
-      '2026-09-10': '教师节',
-      '2026-09-19': '',
-      '2026-09-23': '秋分',
-      '2026-10-01': '国庆',
-      '2026-10-02': '国庆',
-      '2026-10-03': '国庆',
-      '2026-10-04': '国庆',
-      '2026-10-05': '国庆',
-      '2026-10-06': '国庆',
-      '2026-10-07': '国庆',
-      '2026-10-08': '寒露',
-      '2026-10-23': '霜降',
-      '2026-11-07': '立冬',
-      '2026-11-11': '光棍节',
-      '2026-11-22': '小雪',
-      '2026-11-28': '',
-      '2026-12-07': '大雪',
-      '2026-12-21': '冬至',
-      '2026-12-24': '平安夜',
-      '2026-12-25': '圣诞节',
-      // 2027年节日
-      '2027-01-01': '元旦',
-      '2027-02-06': '春节',
-      '2027-02-07': '初二',
-      '2027-02-08': '初三',
-      '2027-02-09': '初四',
-      '2027-02-10': '初五',
-      '2027-02-11': '初六',
-      '2027-02-12': '初七',
-      '2027-04-05': '清明',
-      '2027-05-01': '劳动节',
-      '2027-05-02': '劳动节',
-      '2027-05-03': '劳动节',
-      '2027-06-09': '端午',
-      '2027-10-01': '国庆',
-      '2027-10-02': '国庆',
-      '2027-10-03': '国庆',
-      '2027-10-04': '国庆',
-      '2027-10-05': '国庆',
-      '2027-10-06': '国庆',
+      '2026-01-01': '元旦', '2026-02-17': '春节', '2026-02-18': '初二', '2026-02-19': '初三',
+      '2026-02-20': '初四', '2026-02-21': '初五', '2026-02-22': '初六', '2026-02-23': '初七',
+      '2026-04-05': '清明', '2026-05-01': '劳动节', '2026-05-02': '劳动节', '2026-05-03': '劳动节',
+      '2026-05-31': '端午', '2026-06-01': '儿童节', '2026-06-19': '父亲节', '2026-06-21': '夏至',
+      '2026-07-01': '建党节', '2026-07-07': '小暑', '2026-07-22': '大暑', '2026-08-01': '建军节',
+      '2026-08-07': '立秋', '2026-08-15': '中秋', '2026-08-19': '医师节', '2026-08-23': '处暑',
+      '2026-08-27': '中元节', '2026-09-01': '开学', '2026-09-07': '白露', '2026-09-10': '教师节',
+      '2026-09-23': '秋分', '2026-10-01': '国庆', '2026-10-02': '国庆', '2026-10-03': '国庆',
+      '2026-10-04': '国庆', '2026-10-05': '国庆', '2026-10-06': '国庆', '2026-10-07': '国庆',
+      '2026-10-08': '寒露', '2026-10-23': '霜降', '2026-11-07': '立冬', '2026-11-11': '光棍节',
+      '2026-11-22': '小雪', '2026-12-07': '大雪', '2026-12-21': '冬至', '2026-12-24': '平安夜',
+      '2026-12-25': '圣诞节', '2027-01-01': '元旦', '2027-02-06': '春节', '2027-02-07': '初二',
+      '2027-02-08': '初三', '2027-02-09': '初四', '2027-02-10': '初五', '2027-02-11': '初六',
+      '2027-02-12': '初七', '2027-04-05': '清明', '2027-05-01': '劳动节', '2027-05-02': '劳动节',
+      '2027-05-03': '劳动节', '2027-06-09': '端午', '2027-10-01': '国庆', '2027-10-02': '国庆',
+      '2027-10-03': '国庆', '2027-10-04': '国庆', '2027-10-05': '国庆', '2027-10-06': '国庆',
       '2027-10-07': '国庆'
     };
 
@@ -1016,21 +1102,16 @@
       const y = calendarViewDate.getFullYear();
       const m = calendarViewDate.getMonth();
       document.getElementById('calTitle').textContent = `${y}年${m + 1}月`;
-
       const firstDay = new Date(y, m, 1);
       const lastDay = new Date(y, m + 1, 0);
       const startDay = (firstDay.getDay() + 6) % 7;
       const daysInMonth = lastDay.getDate();
-
       const container = document.getElementById('calDays');
       container.innerHTML = '';
-
       const prevLast = new Date(y, m, 0).getDate();
       for (let i = startDay - 1; i >= 0; i--) {
-        const d = prevLast - i;
-        container.appendChild(createCalDay(d, true, false));
+        container.appendChild(createCalDay(prevLast - i, true, false));
       }
-
       const today = new Date();
       for (let d = 1; d <= daysInMonth; d++) {
         const date = new Date(y, m, d);
@@ -1039,7 +1120,6 @@
         const isWeekend = date.getDay() === 0 || date.getDay() === 6;
         container.appendChild(createCalDay(d, false, isWeekend, isToday, isSelected, date));
       }
-
       const remaining = (7 - ((startDay + daysInMonth) % 7)) % 7;
       for (let d = 1; d <= remaining; d++) {
         container.appendChild(createCalDay(d, true, false));
@@ -1053,24 +1133,19 @@
       if (isWeekend) div.classList.add('weekend');
       if (isToday) div.classList.add('today');
       if (isSelected) div.classList.add('selected');
-
       let lunarText = '';
       if (!otherMonth && date) {
-        const key = formatDate(date);
-        lunarText = HOLIDAY_MAP[key] || '';
+        lunarText = HOLIDAY_MAP[formatDate(date)] || '';
       }
-
       div.innerHTML = `<div>${d}</div>${lunarText ? `<div class="lunar">${lunarText}</div>` : ''}`;
-
       if (date && !otherMonth) {
         div.addEventListener('click', () => {
           currentDate = new Date(date);
           closeCalendar();
           if (currentTab === 'schedulePage') renderSchedule();
-          else renderChecklist();
+          else renderStats();
         });
       }
-
       return div;
     }
 
@@ -1092,22 +1167,16 @@
     }
 
     document.querySelectorAll('.top-tabs .tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.top-tabs .tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(tab.dataset.page).classList.add('active');
-        currentTab = tab.dataset.page;
-      });
+      tab.addEventListener('click', () => switchTab(tab.dataset.page));
     });
 
     document.getElementById('prevDate').addEventListener('click', () => { currentDate.setDate(currentDate.getDate() - 1); renderSchedule(); });
     document.getElementById('nextDate').addEventListener('click', () => { currentDate.setDate(currentDate.getDate() + 1); renderSchedule(); });
-    document.getElementById('prevDateCheck').addEventListener('click', () => { currentDate.setDate(currentDate.getDate() - 1); renderChecklist(); });
-    document.getElementById('nextDateCheck').addEventListener('click', () => { currentDate.setDate(currentDate.getDate() + 1); renderChecklist(); });
+    document.getElementById('prevDateStats').addEventListener('click', () => { currentDate.setDate(currentDate.getDate() - 1); renderStats(); });
+    document.getElementById('nextDateStats').addEventListener('click', () => { currentDate.setDate(currentDate.getDate() + 1); renderStats(); });
 
     document.getElementById('dateTitle').addEventListener('click', toggleCalendar);
-    document.getElementById('dateTitleCheck').addEventListener('click', toggleCalendar);
+    document.getElementById('dateTitleStats').addEventListener('click', toggleCalendar);
 
     document.getElementById('calendarMask').addEventListener('click', e => {
       if (e.target.id === 'calendarMask') closeCalendar();
@@ -1119,15 +1188,11 @@
     document.getElementById('targetDateSelect').addEventListener('change', updateCountdown);
 
     document.getElementById('todayBtn').addEventListener('click', goToday);
-    document.getElementById('todayBtnCheck').addEventListener('click', goToday);
-
-    document.getElementById('addTaskBtn').addEventListener('click', addTask);
-    document.getElementById('newTaskInput').addEventListener('keypress', e => { if (e.key === 'Enter') addTask(); });
+    document.getElementById('todayBtnStats').addEventListener('click', goToday);
 
     document.getElementById('saveBtn').addEventListener('click', save);
 
     renderSchedule();
-    renderChecklist();
   </script>
 </body>
 </html>
