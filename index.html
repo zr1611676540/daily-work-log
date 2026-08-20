@@ -260,7 +260,9 @@
     }
 
     input[type="text"].duration-input {
-      width: 50px;
+      width: 55px;
+      background: #f9f9f9;
+      color: #666;
     }
 
     .adjust-cell {
@@ -868,6 +870,30 @@
       document.getElementById('countdownDays').textContent = `${days} 天`;
     }
 
+    function timeToMinutes(t) {
+      if (!t || typeof t !== 'string' || !t.includes(':')) return 0;
+      const [h, m] = t.split(':').map(Number);
+      if (isNaN(h) || isNaN(m)) return 0;
+      return h * 60 + m;
+    }
+
+    function minutesToDurationStr(minutes) {
+      if (minutes <= 0) return '0';
+      const h = Math.floor(minutes / 60);
+      const m = minutes % 60;
+      if (h > 0 && m > 0) return `${h}h${m}min`;
+      if (h > 0) return `${h}h`;
+      return `${m}min`;
+    }
+
+    function calcDuration(start, end) {
+      const startMin = timeToMinutes(start);
+      const endMin = timeToMinutes(end);
+      let diff = endMin - startMin;
+      if (diff <= 0) return 0;
+      return diff;
+    }
+
     function renderSchedule() {
       const dateKey = formatDate(currentDate);
       document.getElementById('dateTitle').textContent = dateKey;
@@ -884,7 +910,7 @@
             ? `<td class="type-cell" rowspan="${group.rows.length}">${group.type}</td>`
             : '';
           const durHtml = row.duration !== undefined
-            ? `<input type="text" class="duration-input" data-group="${gIdx}" data-idx="${rIdx}" value="${row.duration}" placeholder="">`
+            ? `<input type="text" class="duration-input" data-group="${gIdx}" data-idx="${rIdx}" value="${row.duration}" placeholder="" readonly>`
             : '';
           tr.innerHTML = `
             ${typeCell}
@@ -899,8 +925,26 @@
       });
 
       document.getElementById('reviewText').value = data.review;
+      bindTimeInputs(data);
       updateTotalDuration(data);
       updateCountdown();
+    }
+
+    function bindTimeInputs(data) {
+      document.querySelectorAll('input.start, input.end').forEach(input => {
+        input.addEventListener('change', () => {
+          const gIdx = Number(input.dataset.group);
+          const rIdx = Number(input.dataset.idx);
+          const row = data.schedule[gIdx].rows[rIdx];
+          row.start = document.querySelector(`input.start[data-group="${gIdx}"][data-idx="${rIdx}"]`).value;
+          row.end = document.querySelector(`input.end[data-group="${gIdx}"][data-idx="${rIdx}"]`).value;
+          const minutes = calcDuration(row.start, row.end);
+          row.duration = minutesToDurationStr(minutes);
+          const durInput = document.querySelector(`input.duration-input[data-group="${gIdx}"][data-idx="${rIdx}"]`);
+          if (durInput) durInput.value = row.duration;
+          updateTotalDuration(data);
+        });
+      });
     }
 
     function calcDayHours(dateKey) {
