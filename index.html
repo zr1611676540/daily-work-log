@@ -845,7 +845,7 @@
       let total = 0;
       data.schedule.forEach(group => {
         group.rows.forEach(row => {
-          if (row.work === 'Start' && row.duration) {
+          if (row.duration) {
             total += durationToHours(row.duration);
           }
         });
