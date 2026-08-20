@@ -805,12 +805,8 @@
     }
 
     function formatHours(total) {
-      const h = Math.floor(total);
-      const m = Math.round((total - h) * 60);
-      if (h > 0 && m > 0) return `${h}h${m}min`;
-      if (h > 0) return `${h}h`;
-      if (m > 0) return `${m}min`;
-      return '0h';
+      if (total <= 0) return '0h';
+      return `${Math.round(total * 10) / 10}h`;
     }
 
     function daysBetween(d1, d2) {
@@ -878,12 +874,9 @@
     }
 
     function minutesToDurationStr(minutes) {
-      if (minutes <= 0) return '0';
-      const h = Math.floor(minutes / 60);
-      const m = minutes % 60;
-      if (h > 0 && m > 0) return `${h}h${m}min`;
-      if (h > 0) return `${h}h`;
-      return `${m}min`;
+      if (minutes <= 0) return '0h';
+      const h = minutes / 60;
+      return `${Math.round(h * 10) / 10}h`;
     }
 
     function calcDuration(start, end) {
