@@ -944,7 +944,7 @@
       const data = loadData(dateKey);
       let total = 0;
       data.schedule.forEach(g => g.rows.forEach(r => {
-        if (r.work === 'Start') total += durationToHours(r.duration);
+        if (r.duration) total += durationToHours(r.duration);
       }));
       return total;
     }
@@ -961,7 +961,7 @@
           if (!data || !data.schedule) continue;
           let hours = 0;
           data.schedule.forEach(g => g.rows.forEach(r => {
-            if (r.work === 'Start') hours += durationToHours(r.duration);
+            if (r.duration) hours += durationToHours(r.duration);
           }));
           list.push({ date: dateStr, hours, dateObj: new Date(dateStr + 'T00:00:00') });
         } catch (e) {}
