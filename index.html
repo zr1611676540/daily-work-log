@@ -296,6 +296,138 @@
       font-size: 14px;
     }
 
+    .checklist-section {
+      background: #fff;
+      border-radius: 12px;
+      padding: 14px;
+      margin: 14px 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .checklist-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .checklist-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    .checklist-stats {
+      display: flex;
+      gap: 10px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .checklist-stats span {
+      background: #f5f6fa;
+      padding: 4px 8px;
+      border-radius: 10px;
+    }
+
+    .checklist-stats .done-count {
+      color: #27ae60;
+      font-weight: 600;
+    }
+
+    .checklist-stats .pending-count {
+      color: #e74c3c;
+      font-weight: 600;
+    }
+
+    .checklist-input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .checklist-input {
+      flex: 1;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 14px;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .checklist-input:focus {
+      border-color: #667eea;
+    }
+
+    .checklist-add-btn {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0 16px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .checklist-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      background: #f9fafc;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .checklist-item.completed {
+      background: #f0fff4;
+    }
+
+    .checklist-item.completed .checklist-text {
+      text-decoration: line-through;
+      color: #95a5a6;
+    }
+
+    .checklist-checkbox {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      cursor: pointer;
+      accent-color: #27ae60;
+    }
+
+    .checklist-text {
+      flex: 1;
+      font-size: 14px;
+      color: #333;
+      word-break: break-all;
+    }
+
+    .checklist-delete {
+      background: none;
+      border: none;
+      color: #e74c3c;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 0 4px;
+      line-height: 1;
+    }
+
+    .checklist-empty {
+      text-align: center;
+      color: #999;
+      padding: 16px 0;
+      font-size: 13px;
+    }
+
     .calendar-mask {
       position: fixed;
       top: 0;
@@ -663,15 +795,29 @@
             </tr>
           </thead>
           <tbody id="workTableBody"></tbody>
-          <tfoot>
-            <tr class="review-row">
-              <td class="review-label">今日<br>复盘</td>
-              <td colspan="5">
-                <textarea id="reviewText" placeholder="记录今天的收获、不足和明天计划..."></textarea>
-              </td>
-            </tr>
-          </tfoot>
         </table>
+
+        <div class="checklist-section">
+          <div class="checklist-header">
+            <div class="checklist-title">每日工作清单</div>
+            <div class="checklist-stats">
+              <span>已完成 <b class="done-count" id="doneCount">0</b></span>
+              <span>未完成 <b class="pending-count" id="pendingCount">0</b></span>
+            </div>
+          </div>
+          <div class="checklist-input-row">
+            <input type="text" class="checklist-input" id="checklistInput" placeholder="输入工作项，按回车添加...">
+            <button class="checklist-add-btn" id="checklistAddBtn">添加</button>
+          </div>
+          <div class="checklist-list" id="checklistList">
+            <div class="checklist-empty">暂无工作项</div>
+          </div>
+        </div>
+
+        <div class="review-card" style="background:#fff;border-radius:12px;padding:14px;margin:14px 0;box-shadow:0 4px 12px rgba(0,0,0,0.06);">
+          <div class="checklist-title" style="margin-bottom:10px;">今日复盘</div>
+          <textarea id="reviewText" placeholder="记录今天的收获、不足和明天计划..." style="width:100%;min-height:90px;border:none;padding:0;font-size:14px;color:#333;resize:vertical;outline:none;font-family:inherit;line-height:1.6;background:transparent;"></textarea>
+        </div>
       </div>
     </div>
 
@@ -918,9 +1064,85 @@
       });
 
       document.getElementById('reviewText').value = data.review;
+      renderChecklist(data);
       bindTimeInputs(data);
       updateTotalDuration(data);
       updateCountdown();
+    }
+
+    function renderChecklist(data) {
+      const listEl = document.getElementById('checklistList');
+      const items = data.checklist || [];
+      listEl.innerHTML = '';
+      if (items.length === 0) {
+        listEl.innerHTML = '<div class="checklist-empty">暂无工作项</div>';
+      } else {
+        items.forEach((item, idx) => {
+          const div = document.createElement('div');
+          div.className = 'checklist-item' + (item.done ? ' completed' : '');
+          div.innerHTML = `
+            <input type="checkbox" class="checklist-checkbox" ${item.done ? 'checked' : ''} data-idx="${idx}">
+            <div class="checklist-text">${escapeHtml(item.text)}</div>
+            <button class="checklist-delete" data-idx="${idx}">×</button>
+          `;
+          listEl.appendChild(div);
+        });
+        listEl.querySelectorAll('.checklist-checkbox').forEach(cb => {
+          cb.addEventListener('change', () => toggleChecklistItem(Number(cb.dataset.idx)));
+        });
+        listEl.querySelectorAll('.checklist-delete').forEach(btn => {
+          btn.addEventListener('click', () => deleteChecklistItem(Number(btn.dataset.idx)));
+        });
+      }
+      updateChecklistStats(data);
+      document.getElementById('checklistInput').value = '';
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function updateChecklistStats(data) {
+      const items = data.checklist || [];
+      const done = items.filter(i => i.done).length;
+      const pending = items.length - done;
+      document.getElementById('doneCount').textContent = done;
+      document.getElementById('pendingCount').textContent = pending;
+    }
+
+    function addChecklistItem() {
+      const input = document.getElementById('checklistInput');
+      const text = input.value.trim();
+      if (!text) return;
+      const dateKey = formatDate(currentDate);
+      const data = loadData(dateKey);
+      if (!data.checklist) data.checklist = [];
+      data.checklist.push({ text, done: false });
+      saveData(dateKey, data);
+      input.value = '';
+      renderChecklist(data);
+    }
+
+    function toggleChecklistItem(idx) {
+      const dateKey = formatDate(currentDate);
+      const data = loadData(dateKey);
+      if (data.checklist && data.checklist[idx]) {
+        data.checklist[idx].done = !data.checklist[idx].done;
+        saveData(dateKey, data);
+        renderChecklist(data);
+      }
+    }
+
+    function deleteChecklistItem(idx) {
+      const dateKey = formatDate(currentDate);
+      const data = loadData(dateKey);
+      if (data.checklist && data.checklist[idx]) {
+        data.checklist.splice(idx, 1);
+        saveData(dateKey, data);
+        renderChecklist(data);
+      }
     }
 
     function bindTimeInputs(data) {
@@ -1228,6 +1450,11 @@
     document.getElementById('todayBtnStats').addEventListener('click', goToday);
 
     document.getElementById('saveBtn').addEventListener('click', save);
+
+    document.getElementById('checklistAddBtn').addEventListener('click', addChecklistItem);
+    document.getElementById('checklistInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') addChecklistItem();
+    });
 
     renderSchedule();
   </script>
